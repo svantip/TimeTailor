@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
+    <link rel="stylesheet" href="{% static "css/style.css" %}"> <link
+    rel="stylesheet" href="{% static "css/forms.css" %}">
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <title>Time Tailor</title>
+  </head>
+  <body>
+    {% include 'quickadd-form.html' %}
+    <div
+      class="container-fluid"
+      style="display:flex; 
+      width=100%;
+      min-height: 100vh;"
+    >
+      <a class="sidebar-toggle"><i class="bx bx-sidebar"></i></a>
+      <div class="sidebar">
+        <div class="sidebar-content">
+          <img src = {% static 'media/logoTimeTailor.png' %} class="logo" >
+
+          <div class="quickadd">
+            <h3>
+              Quick Add<a href="" id="quickadd-toggle" class="add"
+                ><i class="bx bx-list-plus"></i
+              ></a>
+            </h3>
+            {% for task in sidebar_list %}
+            <div class="quickaddcard">{{ task.name }}</div>
+            {% endfor %}
+          </div>
+
+          <div class="completed">
+            <h3>Completed Today</h3>
+            {% for task in sidebar_list2 %}
+            <div class="quickaddcard" style="color: white">{{ task.name }}</div>
+            {% endfor %}
+          </div>
+        </div>
+
+        {% if user.is_authenticated %}
+        <p class="welcome-msg">
+          Welcome, {{ user.username }}! <a href="/auth/login">Logout</a>
+        </p>
+        {% else %}
+        <p>Welcome, new user. Please <a href="/auth/login">log in.</a></p>
+        {% endif %}
+        <i class="bx bxs-cog"></i>
+      </div>
+
+      <div class="main"></div>
+    </div>
+    {% if form.errors %}
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var quickAddFormContainer = document.querySelector(".quickadd-form");
+        var backdrop = document.getElementById("backdrop");
+        // Show the form and backdrop if there are form errors
+        quickAddFormContainer.style.display = "block";
+        backdrop.style.display = "block";
+      });
+    </script>
+    {% endif %}
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var toggleButton = document.querySelector(".sidebar-toggle");
+        var sidebar = document.querySelector(".sidebar");
+        var quickAddToggle = document.getElementById("quickadd-toggle");
+        var quickAddFormContainer = document.querySelector(".quickadd-form");
+        var backdrop = document.getElementById("backdrop");
+        var closeModal = document.getElementById("close-modal");
+
+        toggleButton.addEventListener("click", function () {
+          sidebar.classList.toggle("active");
+        });
+
+        quickAddToggle.addEventListener("click", function (event) {
+          event.preventDefault(); // Prevent the default anchor behavior
+          quickAddFormContainer.style.display = "block";
+          backdrop.style.display = "block"; // Show backdrop when form is displayed
+        });
+
+        // Optional: Close the modal when the backdrop is clicked
+        if (backdrop) {
+          backdrop.addEventListener("click", function () {
+            quickAddFormContainer.style.display = "none";
+            backdrop.style.display = "none"; // Hide backdrop
+          });
+        }
+
+        // Optional: Close the modal when the close button is clicked
+        if (closeModal) {
+          closeModal.addEventListener("click", function () {
+            quickAddFormContainer.style.display = "none";
+            backdrop.style.display = "none";
+          });
+        }
+      });
+    </script>
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+  </body>
+</html>

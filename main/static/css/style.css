@@ -1,0 +1,224 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+  background-color: #222;
+}
+
+.sidebar {
+  color: #fff;
+  background-color: #222;
+  padding: 20px;
+  width: 250px; 
+  overflow-y: auto; 
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-content {
+  flex-grow: 1;
+}
+
+.main {
+  border-top-left-radius: 40px;
+  border-bottom-left-radius: 40px;
+  flex-grow: 1;
+  padding: 20px;
+  background-color: #fff;
+  overflow-y: auto;
+}
+
+.sidebar .logo {
+  height: 100px;
+  width: auto;
+  border-radius: 30px;
+  background-color: #009FB730;
+}
+
+.sidebar h3 {
+  display: flex;
+  color: #fff;
+  margin-top: 50px;
+  text-align: start;
+  font-size: large;
+  margin-left: 10px;
+  align-items: center;
+  justify-content: start;
+}
+
+.welcome-msg {
+  font-style: italic;
+  font-size: medium;
+  text-align: center;
+  max-width: 25ch;
+}
+
+.sidebar i {
+    font-size: 30px;
+}
+
+.quickaddcard {
+  margin-left: 10px !important;
+}
+
+.quickadd h3 {
+  display: flex !important;
+  align-items: center !important;
+  color: #fff !important;
+  margin-top: 50px !important;
+  text-align: start !important;
+  font-size: large !important;
+}
+
+.add {
+  color: #fff;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  margin-bottom: 2px !important;
+  margin-left: 15px !important;
+  text-decoration: none !important;
+}
+.add :hover{
+  color:#adadad;
+}
+
+.add i {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.quickadd-form {
+  display: none; /* Hidden by default */
+  position: fixed; /* Positioned relative to the viewport */
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%); /* Center the form */
+  z-index: 10; /* Make sure it's on top of other content */
+  background-color: 0c475f;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 420px;
+  background: #0C475F;
+  color: #fff;
+  border-radius: 10px;
+  padding: 30px 40px;
+  /* You might want to set a max-width and ensure it's responsive */
+}
+
+/* Optional: Full-page backdrop */
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: auto;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent backdrop */
+  display: none;
+  z-index: 5; /* Below the modal but above other content */
+}
+
+
+@media (max-width: 1000px) {
+    .sidebar {
+      width: 200px; /* Adjust width for smaller screens */
+      padding: 10px; /* Reduce padding */
+    }
+  
+    .sidebar h3, .welcome-msg {
+      margin-top: 20px; /* Reduce margin-top */
+      font-size: medium; /* Adjust font size if necessary */
+    }
+
+    .sidebar i {
+      margin-top: 20px; 
+      font-size: 30px;;
+    }
+  
+    .main {
+      padding: 10px; /* Reduce padding */
+    }
+  
+    .sidebar .logo {
+      height: 80px; /* Adjust logo size */
+    }
+
+    .welcome-msg {
+      max-width: 16ch !important;
+      font-size: medium !important;
+    }
+  }
+  
+  @media (max-width: 800px) {
+    .sidebar {
+      width: fit-content; /* Full width for very small screens */
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top:10px;
+      bottom: 50px;
+      height: 100%;
+      transform: translateX(-100%); /* Hide sidebar off-screen */
+      transition: transform 0.5s ease; /* Smooth transition for toggling */
+    }
+
+    .sidebar i {
+        padding-bottom: 20px;
+        padding-left: 10px;
+        font-size: 30px;
+    }
+  
+    .sidebar.active {
+      transform: translateX(0); /* Show sidebar */
+    }
+  
+    .sidebar-content, .welcome-msg {
+      margin-top: 40px; /* Adjust spacing */
+    }
+    
+    .welcome-msg {
+      max-width: 16ch !important;
+      font-size: medium !important;
+    }
+
+    .main {
+      margin-top: 60px; /* Provide space for the top part of the sidebar */
+      border-radius: 0;
+    }
+    .quickaddcard {
+      margin-left: 10px !important;
+    }
+    
+  }
+  
+  /* Add a toggle button for the sidebar in mobile view */
+  /* Place this HTML somewhere in your layout, ideally in the navbar or header */
+  /* <button class="sidebar-toggle">Menu</button> */
+  
+  /* Style for the toggle button */
+  .sidebar-toggle {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 2; /* Above the sidebar */
+    top: 10px; /* Adjust as needed */
+    left: 20px; /* Adjust as needed */
+    font-size: 30px;
+    color: #0c475f;
+  }
+  
+  @media (max-width: 800px) {
+    .sidebar-toggle {
+      display: block; /* Show toggle button on small screens */
+    }
+  }
+
+
+
+
+

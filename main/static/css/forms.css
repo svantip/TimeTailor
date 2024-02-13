@@ -1,0 +1,233 @@
+@import url("https://font.googleapis.com/css2?family=Poppins;wght@300;400;500;600;700;800;900&display=swap");
+
+* {
+    margin: 0;
+     padding: 0;
+     box-sizing: border-box; 
+     font-family: "Poppins",sans-serif; 
+ }
+ 
+ body {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     min-height: 100vh;
+     background: #222222;
+ }
+
+.quickadd-form {
+    width: 420px;
+    background: #0C475F;
+    color: #fff;
+    border-radius: 40px;
+    padding: 30px 40px;
+}
+
+.quickadd-form h1 {
+    margin-top: 20px;
+    font-size: 36px;
+    text-align: center;
+}
+
+.input-box input {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    border: 2px solid rgba(255,255,255,.2);
+    border-radius: 40px;
+    font-size: 16px;
+    color: #fff;
+    padding: 20px 45px 20px 20px;
+}
+
+.row-icon-name {
+    display: inline-block;
+}
+
+.quickadd-form .input-box {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    margin: 30px 0;
+}
+
+.margin-adjust {
+    margin-bottom: 0 !important; /* Adjust or remove the bottom margin */
+}
+
+
+.icon-grid.show {
+    opacity: 1; /* Fully visible */
+    visibility: visible; /* Make visible */
+    transition: opacity 0.5s ease; /* Apply transition to opacity */
+    display: flex;
+}
+
+.icon-grid {
+    justify-content: center;
+    margin-top: 0;
+    width: 100%;
+    height: 80px;
+    flex-wrap: wrap;
+    gap: 10px; /* Adjust based on your design */
+    padding: 10px;
+    border-radius: 25px;
+    background-color: #222; 
+    display: none;
+    opacity: 0; /* Start fully transparent */
+    visibility: hidden; /* Initially not visible */
+    transition: opacity 0.5s ease, visibility 0s linear 0.5s; /* Transition for opacity and delay visibility */
+}
+
+
+.icon-option {
+    cursor: pointer;
+    font-size: 24px; /* Adjust based on your design */
+}
+
+
+.input-box input::placeholder {
+    color: #fff; 
+}
+
+.input-box i {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    padding: 7px;
+    background-color: #222;
+    border-radius: 40px;
+}
+
+.quickadd-form .remember-forgot {
+    display:flex;
+    justify-content: space-between;
+    font-size: 14.5px;
+    margin: -15px 0 15px;
+}
+
+.remember-forgot label input {
+    accent-color: #fff;
+    margin-right: 3px;
+}
+.remember-forgot a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.remember-forgot a:hover {
+    text-decoration: underline;
+}
+
+.quickadd-form .btn {
+    width: 100%;
+    height: 45px;
+    background: #fff;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0,0,0,.1);
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    font-weight: 600;
+}
+
+.quickadd-form .register-link {
+    font-size: 14.5px;
+    text-align: center;
+    margin: 20px 0 15px;
+}
+
+.register-link p a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.register-link p a:hover {
+    text-decoration: underline;
+}
+
+.error-message p{
+    color: red;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.duration {
+    width: 100%;
+    justify-content: space-between;
+    display: flex ;
+    flex-direction: column ;
+    margin-bottom: 30px ;
+}
+
+.color {
+    position: relative;
+    width: 50%;
+    justify-content: space-between;
+    display: flex ;
+    flex-direction: column ;
+    margin-bottom: 30px ;
+}
+
+.duration, .color {
+    flex: 1;
+}
+
+.duration .dInput{
+    width: 100%;
+    height: 30px;
+    background: transparent;
+    border: none;
+    outline: none;
+    border: 2px solid rgba(255,255,255,.2);
+    border-radius: 20px;
+    font-size: 16px;
+    color: #fff;
+    padding: 20px 20px 20px 20px;
+}
+
+.duration .dInput::placeholder {
+    color: #fff;
+}
+
+.duration label {
+    margin-left: 10px;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.color-picker {
+    width: 100px; /* Adjust based on your needs */
+    height: 100px; /* Adjust based on your needs */
+    border-radius: 20px;
+    position: relative;
+    background-color: #ff0000; /* Initial color; can be dynamically updated */
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.color-picker i {
+    color: #fff; /* Adjust icon color as needed */
+    font-size: 50px; /* Adjust based on your needs */
+}
+
+.cInput {
+    visibility: hidden;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    z-index: -1; /* Keep it in the document flow but out of sight */
+}

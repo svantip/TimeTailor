@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/auth.css' %}">
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<title>Login - TimeTailor</title>
+</head>
+
+<body>
+
+<form method="post" action="">
+    {% csrf_token %}
+
+    <div class="auth-container">
+        <h1>Sign Up</h1>
+
+        {% if form.errors %}
+            <div class="error-message"><p>Error Signing Up {{ form.errors }}</p></div>
+        {% endif %}
+
+
+        {% csrf_token %}
+        
+        <div class="input-box">
+            <input type="text" placeholder="Username" name="username" required>
+            <i class='bx bxs-user' ></i>
+        </div>
+
+        <div class="input-box">
+            <input type="mail" placeholder="E-mail" name="email" required>
+            <i class='bx bxs-envelope' ></i>
+        </div>
+
+        <div class="input-box">
+            <input type="password" placeholder="Password" name="password" required>
+            <i class='bx bxs-lock-alt' ></i>
+        </div>
+
+        <div class="input-box">
+            <input type="password" placeholder="Repeat password" name="password2" required>
+            <i class='bx bxs-lock-alt' ></i>
+        </div>
+
+        <button type="submit" class="btn">Sign Up</button>
+</form>
+
+
+    <div class="register-link">
+        <p>Already have an account? <a href="/auth/login">Log in</a></p>
+    </div>
+</div>
+
+<script src="{% static 'js/bootstrap.js' %}"></script>
+
+</body>
+</html>

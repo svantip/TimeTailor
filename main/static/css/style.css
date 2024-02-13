@@ -63,8 +63,19 @@ body {
     font-size: 30px;
 }
 
-.quickaddcard {
-  margin-left: 10px !important;
+ .quickaddcard {
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center; /* Vertically centers the icon with the text */
+  color: #fff;
+}
+
+.quickaddcard i {
+  margin-right: 10px; /* Adjust space between icon and text */
+  display: flex; /* Ensures the icon is considered part of the flex layout */
+  align-items: center; /* Aligns the icon itself */
 }
 
 .quickadd h3 {

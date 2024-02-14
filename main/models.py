@@ -14,7 +14,7 @@ class Task(models.Model):
     icon = models.CharField(max_length=50)  
     color = models.CharField(max_length=7)  
     start_time = models.DateTimeField(null=True, blank=True)
-    duration = models.DurationField(null=True, blank=True)
+    duration = models.DurationField()  
     repeat_frequency = models.CharField(max_length=50, blank=True, null=True) 
     is_quick_add = models.BooleanField() 
     is_completed = models.BooleanField(default = False) 

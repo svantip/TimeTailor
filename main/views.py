@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.urls import reverse
 from django.views.generic import *
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Task
@@ -16,35 +17,37 @@ def homepage(request):
     return render(request, "homepage.html")
 
 
+
 class CombinedListView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
-        return self.render_context(request)
+        context = self.get_context_data()
+        return render(request, 'homepage.html', context)
 
     def post(self, request, *args, **kwargs):
-        form = QuickAddTask(request.POST)
+        form = QuickAddTask(request.POST, user=request.user)  # Pass user here
         if form.is_valid():
-            form.save(user=request.user)
+            form.save()
             messages.success(request, "Task added successfully.")
-            return redirect('home')
+            return redirect(reverse('home'))
         else:
             messages.error(request, "There was an error with your submission.")
-            context = self.get_context_data(request)
-            context['form'] = form  # Update the context with the bound form (including errors)
-            context['form_errors'] = True  # Add a flag to indicate form errors
+            context = self.get_context_data()
+            context['form'] = form
+            context['form_errors'] = True
             return render(request, 'homepage.html', context)
 
-    def get_context_data(self, request):
-        current_user = request.user
+    def get_context_data(self):
+        current_user = self.request.user
+        quick_add_tasks = Task.objects.filter(user=current_user, is_quick_add=True)
+        completed_tasks = Task.objects.filter(user=current_user, is_completed=True)
+        all_tasks = Task.objects.filter(user=current_user)
+        form = QuickAddTask(user=current_user)  # Initialize form with user for GET requests too
         return {
-                'sidebar_list': Task.objects.filter(user=current_user, is_quick_add=True),
-                'sidebar_list2': Task.objects.filter(user=current_user, is_completed=True),
-                'main_list': Task.objects.filter(user=current_user),
-                'form': QuickAddTask(),  # Initialize a new form for normal get requests
-            }
-
-    def render_context(self, request):
-        context = self.get_context_data(request)
-        return render(request, 'homepage.html', context)
+            'sidebar_list': quick_add_tasks,
+            'sidebar_list2': completed_tasks,
+            'main_list': all_tasks,
+            'form': form,
+        }
     
 def signup_view(request):
     if request.method == 'POST':

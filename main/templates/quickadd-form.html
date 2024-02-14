@@ -1,182 +1,138 @@
 <html>
-  <head>
+<head>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/forms.css' %}" />
-  </head>
-  <body>
-    <div class="backdrop" id="backdrop"></div>
-    <div
-      class="quickadd-form"
-      id="quickadd-form-container"
-      style="display: none"
-    >
-      <span id="close-modal" style="cursor: pointer">&times; Close</span>
-      <h1>Add to quick add</h1>
+</head>
+<body>
+<div class="backdrop" id="backdrop"></div>
+<div class="quickadd-form" id="quickadd-form-container" style="display: none">
+    <span id="close-modal" style="cursor: pointer">&times; Close</span>
+    <h1>Add to quick add</h1>
 
-      <form method="post" action="">
-        {% csrf_token %} {% if form.errors %}
-        <div class="error-message">
-          <p>Check your task info.</p>
-        </div>
+    <form method="post" action="{% url 'home' %}">
+        {% csrf_token %}
+        {% if form.errors %}
+            <div class="error-message">
+                <p>Check your task info.</p>
+            </div>
         {% endif %}
         <div class="row-icon-name">
-          <div class="input-box">
-            <input
-              type="text"
-              name="name"
-              placeholder="Task name"
-              required
-            />
-            <div id="selectedIcon" class="icon-selector">
-              <!-- Default icon -->
-              <i class="bx bxs-coffee" id="currentIcon"></i>
+            <div class="input-box">
+                <input type="text" name="name" placeholder="Task name" required />
+                <!-- Hidden input to store selected icon value -->
+                <input type="hidden" name="icon" id="iconInput" value="bxs-coffee" />
+                <div id="selectedIcon" class="icon-selector">
+                    <!-- Default icon -->
+                    <i class="bx bxs-coffee" id="currentIcon"></i>
+                </div>
             </div>
-          </div>
-          <div id="iconGrid" class="icon-grid hidden">
-            <!-- Example icons -->
-            <i
-              class="bx bxs-alarm-snooze icon-option"
-              data-icon="bxs-alarm-snooze"
-            ></i>
-            <i class="bx bxs-shower icon-option" data-icon="bxs-shower"></i>
-            <i
-              class="bx bxs-shopping-bag icon-option"
-              data-icon="bxs-shopping-bag"
-            ></i>
-            <i
-              class="bx bx-restaurant icon-option"
-              data-icon="bx-restaurant"
-            ></i>
-            <i class="bx bxs-coffee icon-option" data-icon="bxs-coffee"></i>
-            <i
-              class="bx bxs-briefcase icon-option"
-              data-icon="bxs-briefcase"
-            ></i>
-            <i class="bx bx-dumbbell icon-option" data-icon="bx-dumbbell"></i>
-            <i class="bx bxs-book icon-option" data-icon="bxs-book"></i>
-            <i class="bx bxs-bed icon-option" data-icon="bxs-bed"></i>
-            <i
-              class="bx bxs-plane-alt icon-option"
-              data-icon="bxs-plane-alt"
-            ></i>
-            <i
-              class="bx bxs-user-detail icon-option"
-              data-icon="bxs-user-detail"
-            ></i>
-            <i
-              class="bx bxs-book-bookmark icon-option"
-              data-icon="bxs-book-bookmark"
-            ></i>
-            <i class="bx bxs-tree icon-option" data-icon="bxs-tree"></i>
-            <i class="bx bxs-dog icon-option" data-icon="bxs-dog"></i>
-          </div>
+            <div id="iconGrid" class="icon-grid hidden">
+                <!-- Example icons -->
+                <i
+                  class="bx bxs-alarm-snooze icon-option"
+                  data-icon="bxs-alarm-snooze"
+                ></i>
+                <i class="bx bxs-shower icon-option" data-icon="bxs-shower"></i>
+                <i
+                  class="bx bxs-shopping-bag icon-option"
+                  data-icon="bxs-shopping-bag"
+                ></i>
+                <i
+                  class="bx bx-restaurant icon-option"
+                  data-icon="bx-restaurant"
+                ></i>
+                <i class="bx bxs-coffee icon-option" data-icon="bxs-coffee"></i>
+                <i
+                  class="bx bxs-briefcase icon-option"
+                  data-icon="bxs-briefcase"
+                ></i>
+                <i class="bx bx-dumbbell icon-option" data-icon="bx-dumbbell"></i>
+                <i class="bx bxs-book icon-option" data-icon="bxs-book"></i>
+                <i class="bx bxs-bed icon-option" data-icon="bxs-bed"></i>
+                <i
+                  class="bx bxs-plane-alt icon-option"
+                  data-icon="bxs-plane-alt"
+                ></i>
+                <i
+                  class="bx bxs-user-detail icon-option"
+                  data-icon="bxs-user-detail"
+                ></i>
+                <i
+                  class="bx bxs-book-bookmark icon-option"
+                  data-icon="bxs-book-bookmark"
+                ></i>
+                <i class="bx bxs-tree icon-option" data-icon="bxs-tree"></i>
+                <i class="bx bxs-dog icon-option" data-icon="bxs-dog"></i>
+              </div>
         </div>
         <div class="row">
-          <div class="duration">
-            <label for="input">Duration: </label>
-            <input
-              class="dInput"
-              type="number"
-              id="taskDurationHours"
-              name="taskDurationHours"
-              min="1"
-              max="24"
-              placeholder="Hours"
-            />
-            <input
-              class="dInput"
-              type="number"
-              id="taskDurationMinutes"
-              name="taskDurationMinutes"
-              min="0"
-              max="59"
-              placeholder="Minutes"
-            />
-          </div>
-          <div class="color">
-            <label for="taskColor">Color: </label>
-            <div class="color-picker" id="colorPickerTrigger">
-              <i class="bx bxs-coffee" id="colorIcon"></i>
-              <!-- placeholder icon -->
+            <div class="duration">
+                <label for="input">Duration: </label>
+                <input class="dInput" type="number" name="duration_hours" min="0" max="24" placeholder="Hours" required />
+                <input class="dInput" type="number" name="duration_minutes" min="0" max="59" placeholder="Minutes" required />
             </div>
-            <input
-              class="cInput"
-              type="color"
-              id="taskColor"
-              name="taskColor"
-              value="#222"
-            />
-          </div>
+            <div class="color">
+                <label for="color">Color: </label>
+                <div class="color-picker" id="colorPickerTrigger">
+                    <i class="bx bxs-coffee" id="colorIcon"></i>
+                    <!-- placeholder icon -->
+                </div>
+                <input class="cInput" type="color" id="color" name="color" value="#222" />
+            </div>
         </div>
-
+    
         <button type="submit" class="btn">Add</button>
-      </form>
-    </div>
-    <script>
-      document;
-      document
-        .getElementById("selectedIcon")
-        .addEventListener("click", function () {
-          const iconGrid = document.getElementById("iconGrid");
-          const inputBox = document.querySelector(".quickadd-form .input-box"); // Adjust this selector if necessary
+    </form>
+</div>
+<script>
+    document.getElementById("selectedIcon").addEventListener("click", function () {
+        const iconGrid = document.getElementById("iconGrid");
+        const inputBox = document.querySelector(".quickadd-form .input-box");
 
-          if (!iconGrid.classList.contains("show")) {
-            iconGrid.style.display = "flex"; // Ensure display is set before adding 'show'
+        if (!iconGrid.classList.contains("show")) {
+            iconGrid.style.display = "flex";
             setTimeout(() => {
-              iconGrid.classList.add("show");
-              inputBox.classList.add("margin-adjust"); // Add the margin-adjust class
-            }, 10); // Minimal delay to ensure transition applies
-          } else {
+                iconGrid.classList.add("show");
+                inputBox.classList.add("margin-adjust");
+            }, 10);
+        } else {
             iconGrid.classList.remove("show");
             setTimeout(() => {
-              if (!iconGrid.classList.contains("show")) {
-                // Check again to ensure user hasn't toggled it back
-                iconGrid.style.display = "none";
-                inputBox.classList.remove("margin-adjust"); // Remove the margin-adjust class
-              }
-            }, 100); // Match the timeout to the transition duration
-          }
-        });
-
-        const iconOptions = document.querySelectorAll(".icon-option");
-        iconOptions.forEach(function (icon) {
-            icon.addEventListener("click", function () {
-                const selectedIconClass = icon.getAttribute("data-icon");
-                // Update the selected icon's class
-                document.getElementById("currentIcon").className = `bx ${selectedIconClass}`;
-                // Also update the icon in the color picker
-                document.getElementById("colorIcon").className = `bx ${selectedIconClass}`;
-                // Hide the icon grid by removing 'show' class
-                document.getElementById("iconGrid").classList.remove("show");
-                
-                // Adjust the input box margin back after selection
-                // Find the input box and remove the 'margin-adjust' class
-                const inputBox = document.querySelector(".quickadd-form .input-box"); // Adjust this selector if necessary
-                if (inputBox.classList.contains("margin-adjust")) {
+                if (!iconGrid.classList.contains("show")) {
+                    iconGrid.style.display = "none";
                     inputBox.classList.remove("margin-adjust");
                 }
-        
-                // Optionally, you may want to hide the icon grid with a delay, matching the existing timeout for showing/hiding
-                setTimeout(() => {
-                    document.getElementById("iconGrid").style.display = "none";
-                }, 100); // Adjust this delay as needed to match your hide/show transition
-            });
-        });
-        
+            }, 100);
+        }
+    });
 
-      document
-        .getElementById("colorPickerTrigger")
-        .addEventListener("click", function () {
-          document.getElementById("taskColor").click();
-        });
+    const iconOptions = document.querySelectorAll(".icon-option");
+    iconOptions.forEach(function (icon) {
+        icon.addEventListener("click", function () {
+            const selectedIconClass = icon.getAttribute("data-icon");
+            document.getElementById("currentIcon").className = `bx ${selectedIconClass}`;
+            document.getElementById("colorIcon").className = `bx ${selectedIconClass}`;
+            document.getElementById("iconInput").value = selectedIconClass; // Update hidden input
+            document.getElementById("iconGrid").classList.remove("show");
 
-      document
-        .getElementById("taskColor")
-        .addEventListener("change", function () {
-          // Change the background color of the custom trigger to reflect the selected color
-          document.getElementById("colorPickerTrigger").style.backgroundColor =
-            this.value;
+            const inputBox = document.querySelector(".quickadd-form .input-box");
+            if (inputBox.classList.contains("margin-adjust")) {
+                inputBox.classList.remove("margin-adjust");
+            }
+
+            setTimeout(() => {
+                document.getElementById("iconGrid").style.display = "none";
+            }, 100);
         });
-    </script>
-  </body>
+    });
+
+    document.getElementById("colorPickerTrigger").addEventListener("click", function () {
+        document.getElementById("color").click();
+    });
+
+    document.getElementById("color").addEventListener("change", function () {
+        document.getElementById("colorPickerTrigger").style.backgroundColor = this.value;
+    });
+</script>
+</body>
 </html>

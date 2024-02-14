@@ -12,20 +12,34 @@ class SignUpForm(UserCreationForm):
         model = User
         fields = ('username', 'email', 'password1', 'password2', )
         
+
 class QuickAddTask(forms.ModelForm):
+    duration_hours = forms.IntegerField(min_value=0, max_value=24, required=True)
+    duration_minutes = forms.IntegerField(min_value=0, max_value=59, required=True)
+
     class Meta:
         model = Task
-        fields = ['name', 'icon', 'duration', 'color']
+        fields = ['name', 'icon', 'color']  # 'duration' is handled separately
+    
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super(QuickAddTask, self).__init__(*args, **kwargs)
 
-    def save(self, commit=True, user=None):
+    def clean_duration(self):
+        duration_hours = self.cleaned_data.get('duration_hours', 0)
+        duration_minutes = self.cleaned_data.get('duration_minutes', 0)
+        return timedelta(hours=duration_hours, minutes=duration_minutes)
+    
+    def save(self, commit=True):
         instance = super(QuickAddTask, self).save(commit=False)
-        # Convert hours and minutes to a duration
-        hours = self.cleaned_data.get('taskDurationHours', 0)
-        minutes = self.cleaned_data.get('taskDurationMinutes', 0)
-        instance.duration = timedelta(hours=hours, minutes=minutes)
-        if user:
-            instance.user = user
+        instance.duration = self.clean_duration()  # Ensure this is correctly set
         instance.is_quick_add = True
+        if self.user:
+            instance.user = self.user
+        instance.start_time = None  # Assuming you want to set this to None by default
+        instance.repeat_frequency = None
+        instance.is_completed = False
+        
         if commit:
             instance.save()
         return instance

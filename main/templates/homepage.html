@@ -17,7 +17,7 @@
     {% include 'quickadd-form.html' %}
     <div
       class="container-fluid"
-      style="display:flex;
+      style="display:flex; 
       width=100%;
       min-height: 100vh;"
     >
@@ -32,17 +32,15 @@
                 ><i class="bx bx-list-plus"></i
               ></a>
             </h3>
-          
             {% for task in sidebar_list %}
-                <div class="quickaddcard" style="background-color: {{ task.color }};"><i class="bx {{ task.icon }}"></i>{{ task.name }}</div>
+            <div class="quickaddcard" style="background-color: {{ task.color }};"><i class="bx {{ task.icon }}"></i>{{ task.name }}</div>
             {% endfor %}
           </div>
 
-        
           <div class="completed">
             <h3>Completed Today</h3>
             {% for task in sidebar_list2 %}
-             <div class="quickaddcard" style="background-color: {{ task.color }};"><i class="bx {{ task.icon }}"></i>{{ task.name }}</div>
+            <div class="quickaddcard" style="color: white">{{ task.name }}</div>
             {% endfor %}
           </div>
         </div>

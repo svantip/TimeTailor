@@ -8,14 +8,15 @@
 html,
 body {
   height: 100%;
-  background-color: #222;
+  background-color: #06272d;
+  overflow-x: hidden;
 }
 
 .sidebar {
   color: #fff;
-  background-color: #222;
+  background-color: #06272d;
   padding: 20px;
-  width: 250px; 
+  width: fit-content; 
   overflow-y: auto; 
   display: flex;
   flex-direction: column;
@@ -27,24 +28,18 @@ body {
 
 .main {
   border-top-left-radius: 40px;
-  border-bottom-left-radius: 40px;
   flex-grow: 1;
-  padding: 20px;
   background-color: #fff;
   overflow-y: auto;
+  padding: 0 !important;
+  width: 100% !important;
 }
 
-.sidebar .logo {
-  height: 100px;
-  width: auto;
-  border-radius: 30px;
-  background-color: #009FB730;
-}
 
 .sidebar h3 {
   display: flex;
   color: #fff;
-  margin-top: 50px;
+  margin-top: 20px;
   text-align: start;
   font-size: large;
   margin-left: 10px;
@@ -64,41 +59,69 @@ body {
 }
 
 .quickaddcard {
-  padding: 10px;
-  border-radius: 5px;
-  margin-bottom: 5px;
   display: flex;
-  align-items: center; /* Vertically centers the icon with the text */
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px;
+  margin: 10px 0;
+  border-radius: 25px;
   color: #fff;
+  background-color: #009FB750;
+  box-shadow: 0px 2px #13828e;
 }
 
 .quickaddcard i {
-  margin-right: 10px; /* Adjust space between icon and text */
-  display: flex; /* Ensures the icon is considered part of the flex layout */
-  align-items: center; /* Aligns the icon itself */
+  font-size: 20px;
+  padding: 8px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.task {
+  margin-top: 50px;
+}
+
+.quickaddcard .task-name {
+  flex-grow: 1;
+  margin: 0 10px; 
+  text-align: left; 
+  max-width: 10ch;
+}
+
+.plus :hover {
+  color: #13828e;
+} 
+
+.bxs-plus-circle {
+  font-size: 36px !important;
+  padding: 0 !important;
 }
 
 .quickadd h3 {
   display: flex !important;
   align-items: center !important;
   color: #fff !important;
-  margin-top: 50px !important;
   text-align: start !important;
   font-size: large !important;
+  justify-content: space-between !important;
 }
 
 .add {
-  color: #fff;
+  color: #9df2f1 !important;
   padding: 0 !important;
   margin: 0 !important;
+  margin-right: 5px !important;
   display: flex !important;
   align-items: center !important;
   margin-bottom: 2px !important;
   margin-left: 15px !important;
   text-decoration: none !important;
+  
 }
 .add :hover{
-  color:#adadad;
+  color:#13828e;
 }
 
 .add i {
@@ -135,11 +158,95 @@ body {
   z-index: 5; /* Below the modal but above other content */
 }
 
+.starttime-form {
+  display: none; /* Hidden by default */
+  position: fixed; /* Positioned relative to the viewport */
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%); /* Center the form */
+  z-index: 10; /* Make sure it's on top of other content */
+  background-color: 0c475f;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 420px;
+  background: #0C475F;
+  color: #fff;
+  border-radius: 10px;
+  padding: 30px 40px;
+  /* You might want to set a max-width and ensure it's responsive */
+}
+
+/* Optional: Full-page backdrop */
+.backdrop2 {
+  position: fixed;
+  top: 0;
+  left: auto;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent backdrop */
+  display: none;
+  z-index: 5; /* Below the modal but above other content */
+}
+
+#calendar {
+  display: flex;
+  margin-left: 15px;
+  justify-content: start;
+  align-items: baseline;
+  gap: 50px;
+  color:white;
+  margin-bottom: 20px;
+}
+
+.day {
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    justify-content:flex-start;
+    gap: 25px; /* Adjust the space between day name and number */
+    width: 50px; /* Adjust width as needed */
+    height: 50px; /* Adjust height as needed */
+    line-height: 1%; /* Adjust line height as needed */
+    text-align: center;
+    border-radius: 50%;
+    margin: 5px;
+}
+
+.day-name {
+    font-size: 0.75rem; /* Adjust font size as needed */
+    color: #fff; /* Adjust color as needed */
+}
+
+.day-number {
+    font-size: 1rem; /* Adjust font size as needed */
+    color: #fff; /* Adjust color as needed */
+}
+
+.past {
+  background-color: #174950; /* Light red for past days */
+}
+
+.current {
+  background-color: #0c475f;
+ 
+   /* Darker red for the current day */
+}
+
+.day.selected {
+  background-color: #4CAF50; /* Or any color that fits your design */
+  color: white; /* Adjust text color as needed */
+}
+
+.future {
+  background-color: #174950; /* Light blue for future days */
+}
+
+
 
 @media (max-width: 1000px) {
     .sidebar {
-      width: 200px; /* Adjust width for smaller screens */
+      width: fit-content;  /* Adjust width for smaller screens */
       padding: 10px; /* Reduce padding */
+      width: fit-content; 
     }
   
     .sidebar h3, .welcome-msg {
@@ -147,8 +254,11 @@ body {
       font-size: medium; /* Adjust font size if necessary */
     }
 
+    .quickaddcard i {
+      font-size: 40px !important;
+    }
+
     .sidebar i {
-      margin-top: 20px; 
       font-size: 30px;;
     }
   
@@ -179,6 +289,10 @@ body {
       transition: transform 0.5s ease; /* Smooth transition for toggling */
     }
 
+    .quickaddcard i {
+      padding: 5px !important;
+    }
+
     .sidebar i {
         padding-bottom: 20px;
         padding-left: 10px;
@@ -191,6 +305,7 @@ body {
   
     .sidebar-content, .welcome-msg {
       margin-top: 40px; /* Adjust spacing */
+      width: fit-content; 
     }
     
     .welcome-msg {
@@ -203,7 +318,8 @@ body {
       border-radius: 0;
     }
     .quickaddcard {
-      margin-left: 10px !important;
+      width: 100% !important;
+      margin: 10px 0 !important;
     }
     
   }
@@ -228,8 +344,4 @@ body {
       display: block; /* Show toggle button on small screens */
     }
   }
-
-
-
-
 

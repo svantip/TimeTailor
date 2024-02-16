@@ -1,5 +1,7 @@
-from django.http import HttpResponse
-from django.shortcuts import render
+
+from datetime import datetime
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views.generic import *
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -10,6 +12,7 @@ from django.shortcuts import render, redirect
 from .forms import *
 from django.contrib import messages
 from .forms import *
+from django.core.serializers import serialize
 
 # Create your views here.
 @login_required
@@ -24,29 +27,43 @@ class CombinedListView(LoginRequiredMixin, View):
         return render(request, 'homepage.html', context)
 
     def post(self, request, *args, **kwargs):
-        form = QuickAddTask(request.POST, user=request.user)  # Pass user here
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Task added successfully.")
-            return redirect(reverse('home'))
-        else:
-            messages.error(request, "There was an error with your submission.")
-            context = self.get_context_data()
-            context['form'] = form
-            context['form_errors'] = True
-            return render(request, 'homepage.html', context)
+        # Check which form was submitted
+        if 'submit_quick_add' in request.POST:
+            form = QuickAddTask(request.POST, user=request.user)
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Task added successfully.")
+                return redirect(reverse('home'))
+            else:
+                messages.error(request, "There was an error with your Quick Add submission.")
+        elif 'submit_start_time' in request.POST:
+            form = StartTimeForm(request.POST, user=request.user)  # Assuming StartTimeForm is correctly defined
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Start time set successfully.")
+                return redirect(reverse('home'))
+            else:
+                messages.error(request, "There was an error with setting the start time.")
+        
+        # If neither form is valid, or if another POST request without form submission
+        context = self.get_context_data()
+        context['form'] = form  # You may need to handle this more gracefully for multiple forms
+        context['form_errors'] = True
+        return render(request, 'homepage.html', context)
 
     def get_context_data(self):
         current_user = self.request.user
         quick_add_tasks = Task.objects.filter(user=current_user, is_quick_add=True)
         completed_tasks = Task.objects.filter(user=current_user, is_completed=True)
         all_tasks = Task.objects.filter(user=current_user)
-        form = QuickAddTask(user=current_user)  # Initialize form with user for GET requests too
+        form_quick_add = QuickAddTask(user=current_user)  # Initialize form with user for GET requests
+        form_start_time = StartTimeForm()  # Assuming this form does not need the user passed in
         return {
             'sidebar_list': quick_add_tasks,
             'sidebar_list2': completed_tasks,
             'main_list': all_tasks,
-            'form': form,
+            'form_quick_add': form_quick_add,
+            'form_start_time': form_start_time,
         }
     
 def signup_view(request):
@@ -94,5 +111,15 @@ def login_view(request):
     context={'message':message}
     return render(request, 'login.html', context)
 
+@login_required
+def get_tasks_for_date(request, date_str):
+    # Convert the date_str to a date object
+    selected_date = datetime.strptime(date_str, "%Y-%m-%d").date()
+    tasks = Task.objects.filter(user=request.user, date=selected_date, is_quick_add=False)
+    
+    # Serialize tasks to JSON
+    tasks_json = serialize('json', tasks, fields=('name', 'start_time', 'duration'))
+    
+    return JsonResponse({'tasks': tasks_json}, safe=False)
 
 

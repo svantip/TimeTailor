@@ -1,5 +1,5 @@
 # forms.py
-from datetime import timedelta
+from datetime import time, timedelta
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -39,6 +39,29 @@ class QuickAddTask(forms.ModelForm):
         instance.start_time = None  # Assuming you want to set this to None by default
         instance.repeat_frequency = None
         instance.is_completed = False
+        instance.date = None
+        
+        if commit:
+            instance.save()
+        return instance
+    
+
+class StartTimeForm(forms.ModelForm):
+    class Meta:
+        model = Task
+        fields = ['name', 'icon', 'color', 'duration', 'start_time', 'is_quick_add']
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super(StartTimeForm, self).__init__(*args, **kwargs)
+    
+    def save(self, commit=True):
+        instance = super(StartTimeForm, self).save(commit=False)
+        if self.user:
+            instance.user = self.user
+        instance.repeat_frequency = None
+        instance.is_completed = False
+        instance.date = None
         
         if commit:
             instance.save()

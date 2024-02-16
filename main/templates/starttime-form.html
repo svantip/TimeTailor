@@ -1,0 +1,36 @@
+<html>
+  <head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/forms.css' %}" />
+  </head>
+  <body>
+    <div class="backdrop" id="backdrop2"></div>
+    <div class="starttime-form" id="starttime-form-container" style="display: none">
+      <span id="close-modal2" style="cursor: pointer">&times; Close</span>
+      <h1>When will this task occur</h1>
+
+      <form method="post" action="{% url 'home' %}">
+        {% csrf_token %} {% if form.errors %}
+        <div class="error-message">
+          <p>Check your task info:</p>
+          <ul>
+            {% for field, errors in form.errors.items %} {% for error in errors %}
+            <li><strong>{{ field }}:</strong> {{ error }}</li>
+            {% endfor %} {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+        <input type="hidden" name="name" id="taskName" />
+        <input type="hidden" name="icon" id="taskIcon" />
+        <input type="hidden" name="color" id="taskColor" />
+        <input type="hidden" name="duration" id="taskDuration" />
+        <input type="hidden" name="is_quick_add" value="False" />
+        <div class="input-box">
+          <input type="time" name="start_time" id="starttime-task-id" placeholder="Start time" value="" />
+        </div>
+
+        <button type="submit" name="submit_start_time" class="btn">Add</button>
+      </form>
+    </div>
+  </body>
+</html>

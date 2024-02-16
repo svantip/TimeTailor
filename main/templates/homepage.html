@@ -4,36 +4,43 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     {% load static %}
+    {% include 'starttime-form.html' %}
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
-    <link rel="stylesheet" href="{% static "css/style.css" %}"> <link
-    rel="stylesheet" href="{% static "css/forms.css" %}">
-    <link
-      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
-      rel="stylesheet"
-    />
+    <link rel="stylesheet" href="{% static "css/style.css" %}"> <link rel="stylesheet" href="{% static "css/forms.css" %}">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
     <title>Time Tailor</title>
   </head>
   <body>
     {% include 'quickadd-form.html' %}
-    <div
-      class="container-fluid"
-      style="display:flex; 
-      width=100%;
-      min-height: 100vh;"
-    >
+    <div class="container-fluid" style="display: flex; width: 100%; min-height: 100vh; background-color: #06272d; margin: 0; padding: 0">
       <a class="sidebar-toggle"><i class="bx bx-sidebar"></i></a>
       <div class="sidebar">
         <div class="sidebar-content">
-          <img src = {% static 'media/logoTimeTailor.png' %} class="logo" >
-
+          <div
+            style="
+              height: 100px;
+              width: 100%;
+              border-radius: 20px;
+              background-color: #174950;
+              display: flex;
+              margin-top: 10px;
+              justify-content: center;
+              align-itimes: center;
+              box-shadow: 0px 2px #13828e;
+            "
+          >
+            <img style="height:100px;" src = {% static 'media/logoTimeTailor2.png' %} class="logo" >
+          </div>
           <div class="quickadd">
             <h3>
-              Quick Add<a href="" id="quickadd-toggle" class="add"
-                ><i class="bx bx-list-plus"></i
-              ></a>
+              Quick Add<a href="#" id="quickadd-toggle" class="add"><i class="bx bx-list-plus"></i></a>
             </h3>
             {% for task in sidebar_list %}
-            <div class="quickaddcard" style="background-color: {{ task.color }};"><i class="bx {{ task.icon }}"></i>{{ task.name }}</div>
+            <div class="quickaddcard" style="background-color: #009fb750">
+              <i class="bx {{ task.icon }}" style="background-color: {{ task.color }};"></i>
+              <p class="task-name">{{ task.name }}</p>
+              <a href="#" id="starttime-toggle" class="starttime-toggle" data-name="{{ task.name }}" data-icon="{{ task.icon }}" data-color="{{ task.color }}" data-duration="{{ task.duration }}" style="color: #9df2f1; text-decoration: none"><i class="bx bxs-plus-circle"></i></a>
+            </div>
             {% endfor %}
           </div>
 
@@ -46,16 +53,67 @@
         </div>
 
         {% if user.is_authenticated %}
-        <p class="welcome-msg">
-          Welcome, {{ user.username }}! <a href="/auth/login">Logout</a>
-        </p>
+        <p class="welcome-msg">Welcome, {{ user.username }}! <a href="/auth/login">Logout</a></p>
         {% else %}
         <p>Welcome, new user. Please <a href="/auth/login">log in.</a></p>
         {% endif %}
-        <i class="bx bxs-cog"></i>
       </div>
 
-      <div class="main"></div>
+      <div class="main" style="background-color: #06272d">
+        <div style="height: fitcontent; display: flex; flex-direction: column">
+          <div style="display: flex; margin-left: 15px; justify-content: space-between; align-items: baseline; color: white; font-size: 20px">
+            <p id="currentMonthYear">November 2022</p>
+            <div class="calendarBtnRow" style="height: 3%; justify-content: end; display: flex; font-size: 30px; padding: 20px">
+              <i class="bx bxs-calendar" style="color: #9df2f1"></i>
+              <i class="bx bxs-cog" style="margin-left: 20px; color: #9df2f1"></i>
+            </div>
+          </div>
+          <div id="calendar">
+            <div class="day past">13</div>
+            <!-- Past days -->
+            <div class="day past">14</div>
+            <!-- Past days -->
+            <div class="day current">15</div>
+            <!-- Current day -->
+            <div class="day future">16</div>
+            <!-- Future days -->
+            <div class="day future">17</div>
+            <!-- Future days -->
+            <div class="day future">18</div>
+            <!-- Future days -->
+            <div class="day future">19</div>
+            <!-- Future days -->
+          </div>
+        </div>
+
+        <div
+        id="timeline-container"
+        style="position: relative; height: 100%; background-color: #14525b; border-top-left-radius: 25px; overflow-y: auto"
+        >
+          {% for task in tasks_for_day %}
+            {% with task.start_time|date:"H" as start_hour %}
+              {% with task.start_time|date:"i" as start_minute %}
+                {% with task.duration|time:"H" as duration_hours %}
+                  {% with task.duration|time:"i" as duration_minutes %}
+                    <div
+                      class="task"
+                      style="position: absolute; left: 10px; width: calc(100% - 20px); background-color: #4CAF50; color: white; padding: 5px; border-radius: 5px;
+                                top: calc({{ start_hour }} * 60px + ({{ start_minute }} / 60 * 60px));
+                                height: calc({{ duration_hours }} * 60px + ({{ duration_minutes }} / 60 * 60px));"
+                    >
+                      <p>Task: {{ task.name }}</p>
+                      <p>Time: {{ task.start_time|date:"H:i" }} - {{ task.end_time|date:"H:i" }}</p>
+                    </div>
+                  {% endwith %}
+                {% endwith %}
+              {% endwith %}
+            {% endwith %}
+          {% empty %}
+            <p style="color: white; padding: 10px">No tasks for this day.</p>
+          {% endfor %}
+        </div>
+
+      </div>
     </div>
     {% if form.errors %}
     <script>
@@ -68,43 +126,144 @@
       });
     </script>
     {% endif %}
+    
+    <script src="{% static 'js/forms.js' %}"></script>
+    <script>
+      function generateCalendar() {
+        const today = new Date();
+        const calendar = document.getElementById("calendar");
+        const todayFormatted = today.toISOString().slice(0, 10); // Format today's date as YYYY-MM-DD
+    
+        // Clear existing calendar days
+        calendar.innerHTML = "";
+    
+        // Add past days
+        for (let i = 2; i > 0; i--) {
+            const pastDay = new Date(today);
+            pastDay.setDate(today.getDate() - i);
+            calendar.appendChild(createDayElement(pastDay, "past", todayFormatted));
+        }
+    
+        // Add current day and highlight it
+        const currentDayElement = createDayElement(today, "current", todayFormatted);
+        currentDayElement.classList.add('selected'); // Highlight today
+        calendar.appendChild(currentDayElement);
+    
+        // Add future days
+        for (let i = 1; i <= 4; i++) {
+            const futureDay = new Date(today);
+            futureDay.setDate(today.getDate() + i);
+            calendar.appendChild(createDayElement(futureDay, "future", todayFormatted));
+        }
+    
+        // Fetch tasks for today
+        fetchTasksForDay(todayFormatted);
+    }
+    
+    function createDayElement(date, className, todayFormatted) {
+        const dayElem = document.createElement("div");
+        dayElem.className = `day ${className}`;
+        const dateFormatted = date.toISOString().slice(0, 10);
+        dayElem.setAttribute("data-date", dateFormatted); // Set ISO string as data attribute
+    
+        // Create day name element
+        const dayNameElem = document.createElement("div");
+        dayNameElem.className = "day-name";
+        const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        const dayName = dayNames[date.getDay()];
+        dayNameElem.textContent = dayName;
+    
+        // Create day number element
+        const dayNumberElem = document.createElement("div");
+        dayNumberElem.className = "day-number";
+        dayNumberElem.textContent = date.getDate();
+    
+        dayElem.appendChild(dayNameElem);
+        dayElem.appendChild(dayNumberElem);
+    
+        // Highlight today's date
+        if (dateFormatted === todayFormatted) {
+            dayElem.classList.add('selected'); // This ensures today is highlighted
+        }
+    
+        dayElem.addEventListener("click", function () {
+            document.querySelectorAll('.day').forEach(day => day.classList.remove('selected')); // Remove 'selected' class from all days
+            this.classList.add('selected'); // Highlight the clicked day
+            fetchTasksForDay(dateFormatted); // Fetch tasks for the selected date
+        });
+    
+        return dayElem;
+    }
+    function fetchTasksForDay(selectedDate) {
+      fetch(`/get-tasks-for-date/${selectedDate}`)
+      .then(response => response.json())
+      .then(data => {
+          const tasks = JSON.parse(data.tasks); // Assuming data.tasks is the serialized tasks JSON
+          updateTasksSection(tasks);
+      })
+      .catch(error => console.error("Error fetching tasks:", error));
+  }
+  
+  function updateTasksSection(tasks) {
+      const tasksContainer = document.getElementById("timeline-container");
+      tasksContainer.innerHTML = ""; // Clear current tasks
+      
+      tasks.forEach(task => {
+          // Parse the start_time and duration to calculate positions and heights
+          const startHour = new Date(task.fields.start_time).getHours();
+          const startMinute = new Date(task.fields.start_time).getMinutes();
+          const durationHours = task.fields.duration.hours; // Adjust based on your duration serialization
+          const durationMinutes = task.fields.duration.minutes; // Adjust based on your duration serialization
+  
+          // Create task element
+          const taskElem = document.createElement("div");
+          taskElem.style.position = "absolute";
+          taskElem.style.left = "10px";
+          taskElem.style.width = "calc(100% - 20px)";
+          taskElem.style.backgroundColor = "#4CAF50";
+          taskElem.style.color = "white";
+          taskElem.style.padding = "5px";
+          taskElem.style.borderRadius = "5px";
+          taskElem.style.top = `calc(${startHour} * 60px + ${startMinute} / 60 * 60px)`;
+          taskElem.style.height = `calc(${durationHours} * 60px + ${durationMinutes} / 60 * 60px)`;
+  
+          // Append task details
+          const taskName = document.createElement("p");
+          taskName.textContent = `Task: ${task.fields.name}`;
+          taskElem.appendChild(taskName);
+  
+          const taskTime = document.createElement("p");
+          taskTime.textContent = `Time: ${task.fields.start_time} - CALCULATE_END_TIME`;
+          taskElem.appendChild(taskTime);
+  
+          tasksContainer.appendChild(taskElem);
+      });
+  }
+
+      // Run generateCalendar on script load and every midnight
+      generateCalendar();
+      setInterval(() => {
+        const now = new Date();
+        if (now.getHours() === 0 && now.getMinutes() === 0) {
+          generateCalendar();
+        }
+      }, 60000); // Check every minute
+    </script>
 
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        var toggleButton = document.querySelector(".sidebar-toggle");
-        var sidebar = document.querySelector(".sidebar");
-        var quickAddToggle = document.getElementById("quickadd-toggle");
-        var quickAddFormContainer = document.querySelector(".quickadd-form");
-        var backdrop = document.getElementById("backdrop");
-        var closeModal = document.getElementById("close-modal");
+      function updateMonthYear() {
+        const now = new Date();
+        const options = { month: "long", year: "numeric" };
+        const currentMonthYear = now.toLocaleDateString("en-US", options);
 
-        toggleButton.addEventListener("click", function () {
-          sidebar.classList.toggle("active");
-        });
+        document.getElementById("currentMonthYear").textContent = currentMonthYear;
+      }
 
-        quickAddToggle.addEventListener("click", function (event) {
-          event.preventDefault(); // Prevent the default anchor behavior
-          quickAddFormContainer.style.display = "block";
-          backdrop.style.display = "block"; // Show backdrop when form is displayed
-        });
-
-        // Optional: Close the modal when the backdrop is clicked
-        if (backdrop) {
-          backdrop.addEventListener("click", function () {
-            quickAddFormContainer.style.display = "none";
-            backdrop.style.display = "none"; // Hide backdrop
-          });
-        }
-
-        // Optional: Close the modal when the close button is clicked
-        if (closeModal) {
-          closeModal.addEventListener("click", function () {
-            quickAddFormContainer.style.display = "none";
-            backdrop.style.display = "none";
-          });
-        }
-      });
+      // Call the function to update the content
+      updateMonthYear();
     </script>
+
+    
     <script src="{% static 'js/bootstrap.js' %}"></script>
   </body>
 </html>

@@ -12,7 +12,7 @@
   </head>
   <body>
     {% include 'quickadd-form.html' %}
-    <div class="container-fluid" style="display: flex; width: 100%; min-height: 100vh; background-color: #06272d; margin: 0; padding: 0">
+    <div class="container-fluid" style="display: flex; flex-direction:row; width: 100%; min-height: 100vh;height:100%; background-color: #06272d; margin: 0; padding: 0">
       <a class="sidebar-toggle"><i class="bx bx-sidebar"></i></a>
       <div class="sidebar">
         <div class="sidebar-content">
@@ -59,9 +59,9 @@
         {% endif %}
       </div>
 
-      <div class="main" style="background-color: #06272d">
+      <div class="main" style="background-color: #06272d; height:100%; overflow-y: auto;">
         <div style="height: fitcontent; display: flex; flex-direction: column">
-          <div style="display: flex; margin-left: 15px; justify-content: space-between; align-items: baseline; color: white; font-size: 20px">
+          <div style="display: flex; margin-left:7 px;justify-content: space-between; align-items: baseline; color: white; font-size: 20px">
             <p id="currentMonthYear">November 2022</p>
             <div class="calendarBtnRow" style="height: 3%; justify-content: end; display: flex; font-size: 30px; padding: 20px">
               <i class="bx bxs-calendar" style="color: #9df2f1"></i>
@@ -86,35 +86,26 @@
           </div>
         </div>
 
-        <div
-        id="timeline-container"
-        style="position: relative; height: 100%; background-color: #14525b; border-top-left-radius: 25px; overflow-y: auto"
-        >
-          {% for task in tasks_for_day %}
-            {% with task.start_time|date:"H" as start_hour %}
-              {% with task.start_time|date:"i" as start_minute %}
-                {% with task.duration|time:"H" as duration_hours %}
-                  {% with task.duration|time:"i" as duration_minutes %}
-                    <div
-                      class="task"
-                      style="position: absolute; left: 10px; width: calc(100% - 20px); background-color: #4CAF50; color: white; padding: 5px; border-radius: 5px;
-                                top: calc({{ start_hour }} * 60px + ({{ start_minute }} / 60 * 60px));
-                                height: calc({{ duration_hours }} * 60px + ({{ duration_minutes }} / 60 * 60px));"
-                    >
-                      <p>Task: {{ task.name }}</p>
-                      <p>Time: {{ task.start_time|date:"H:i" }} - {{ task.end_time|date:"H:i" }}</p>
-                    </div>
-                  {% endwith %}
-                {% endwith %}
-              {% endwith %}
-            {% endwith %}
-          {% empty %}
-            <p style="color: white; padding: 10px">No tasks for this day.</p>
-          {% endfor %}
-        </div>
-
+        <div id="timeline-container" style=" display: flex;
+        flex-direction: row;
+        max-height: calc(100vh - 150px); /* Adjust based on your header/footer height */
+        overflow-y: auto; /* Allows scrolling within the timeline container */
+        background-color: #14525b;
+        border-top-left-radius: 20px;">
+          <!-- Hours Column -->
+          <div id="hours-column" style="flex: 0 0 100px; /* Fixed width */
+          background-color: #0d737d;
+          padding: 10px;height:1440px;">
+              {% for hour in hours_range %}
+              <div class="hour" style="color:white;height: 60px; border-bottom: 1px solid #ddd; text-align: center; line-height: 60px;">{{ hour }}:00</div>
+              {% endfor %}
+          </div>
+          <!-- Tasks Container -->
+          <div id="tasks-container" style="flex-grow: 1;
+          position: relative;">
+              <!-- Dynamic tasks will be inserted here -->
+          </div>
       </div>
-    </div>
     {% if form.errors %}
     <script>
       document.addEventListener("DOMContentLoaded", function () {
@@ -205,41 +196,88 @@
   }
   
   function updateTasksSection(tasks) {
-      const tasksContainer = document.getElementById("timeline-container");
-      tasksContainer.innerHTML = ""; // Clear current tasks
-      
-      tasks.forEach(task => {
-          // Parse the start_time and duration to calculate positions and heights
-          const startHour = new Date(task.fields.start_time).getHours();
-          const startMinute = new Date(task.fields.start_time).getMinutes();
-          const durationHours = task.fields.duration.hours; // Adjust based on your duration serialization
-          const durationMinutes = task.fields.duration.minutes; // Adjust based on your duration serialization
-  
-          // Create task element
-          const taskElem = document.createElement("div");
-          taskElem.style.position = "absolute";
-          taskElem.style.left = "10px";
-          taskElem.style.width = "calc(100% - 20px)";
-          taskElem.style.backgroundColor = "#4CAF50";
-          taskElem.style.color = "white";
-          taskElem.style.padding = "5px";
-          taskElem.style.borderRadius = "5px";
-          taskElem.style.top = `calc(${startHour} * 60px + ${startMinute} / 60 * 60px)`;
-          taskElem.style.height = `calc(${durationHours} * 60px + ${durationMinutes} / 60 * 60px)`;
-  
-          // Append task details
-          const taskName = document.createElement("p");
-          taskName.textContent = `Task: ${task.fields.name}`;
-          taskElem.appendChild(taskName);
-  
-          const taskTime = document.createElement("p");
-          taskTime.textContent = `Time: ${task.fields.start_time} - CALCULATE_END_TIME`;
-          taskElem.appendChild(taskTime);
-  
-          tasksContainer.appendChild(taskElem);
-      });
-  }
+    const tasksContainer = document.getElementById("tasks-container");
+    tasksContainer.innerHTML = ""; // Clear current tasks
+    tasksContainer.style.position = 'relative'; // Ensure the container has a relative position
 
+  
+
+    tasks.forEach(task => {
+        // Calculate top position and height
+        const startTimeParts = task.fields.start_time.split(":");
+        const durationParts = task.fields.duration.split(":");
+        const startHour = parseInt(startTimeParts[0], 10);
+        const startMinute = parseInt(startTimeParts[1], 10);
+        const durationHours = parseInt(durationParts[0], 10);
+        const durationMinutes = parseInt(durationParts[1], 10);
+
+        const topPosition = (startHour * 60) + startMinute + 40; // 1 hour = 60px
+        const taskHeight = (durationHours * 60) + durationMinutes; // 1 hour = 60px
+
+        // Create and style task element
+        const taskElem = document.createElement("div");
+
+        taskElem.style = 'justify-content:space-between; align-items:center;'
+        taskElem.style.display ="flex"
+        taskElem.style.position = "absolute"; // Use absolute positioning within the relative container
+        taskElem.style.top = `${topPosition}px`;
+        taskElem.style.left = "0";
+        taskElem.style.width = "calc(100% - 20px)"; // Adjust width if needed, accounting for padding
+        taskElem.style.height = `${taskHeight}px`;
+        taskElem.style.backgroundColor = task.fields.color;
+        taskElem.style.color = "white";
+        taskElem.style.padding = "10px";
+        taskElem.style.borderRadius = "5px";
+        taskElem.style.marginLeft = "10px"; // Add if you want some spacing from the left
+
+        // Append icon, name, and time
+        const taskIcon = document.createElement("i");
+        taskIcon.className = `bx ${task.fields.icon}`;
+        taskElem.appendChild(taskIcon);
+
+        const taskName = document.createElement("p");
+        taskName.style = 'margin-bottom: 0';
+        taskName.textContent = `${task.fields.name}`;
+        taskElem.appendChild(taskName);
+
+        // Correctly calculate and display the end time
+        const endTime = new Date(0, 0, 0, startHour, startMinute);
+        endTime.setMinutes(endTime.getMinutes() + durationHours * 60 + durationMinutes);
+        const endTimeString = endTime.toTimeString().split(":")[0] + ":" + endTime.toTimeString().split(":")[1];
+
+        const taskTime = document.createElement("p");
+        taskTime.style = 'margin-bottom: 0'
+        taskTime.textContent = `${task.fields.start_time} - ${endTimeString}`;
+        taskElem.appendChild(taskTime);
+
+        const checkMark = document.createElement("i");
+        checkMark.className = "bx bxs-check-circle";
+        checkMark.style.color = "green"; // Or any color that fits your design
+        checkMark.style.cursor = "pointer";
+        checkMark.onclick = function() { updateTaskCompletion(task.pk); }; // Assuming task.pk is the task ID
+        taskElem.appendChild(checkMark)
+
+        tasksContainer.appendChild(taskElem);
+    });
+}
+
+function updateTaskCompletion(taskId) {
+  fetch(`/update-task-completion/${taskId}`, {
+      method: 'POST', // Or 'PUT'
+      headers: {
+          'Content-Type': 'application/json',
+          // Include CSRF token as needed
+      },
+      body: JSON.stringify({ completed: true }) // Or toggle the status based on current value
+  })
+  .then(response => {
+      if (response.ok) {
+          console.log("Task updated successfully");
+          // Optionally, refresh tasks or visually indicate completion
+      }
+  })
+  .catch(error => console.error("Error updating task:", error));
+}
       // Run generateCalendar on script load and every midnight
       generateCalendar();
       setInterval(() => {

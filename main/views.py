@@ -64,6 +64,7 @@ class CombinedListView(LoginRequiredMixin, View):
             'main_list': all_tasks,
             'form_quick_add': form_quick_add,
             'form_start_time': form_start_time,
+            'hours_range': range(24),
         }
     
 def signup_view(request):
@@ -118,7 +119,7 @@ def get_tasks_for_date(request, date_str):
     tasks = Task.objects.filter(user=request.user, date=selected_date, is_quick_add=False)
     
     # Serialize tasks to JSON
-    tasks_json = serialize('json', tasks, fields=('name', 'start_time', 'duration'))
+    tasks_json = serialize('json', tasks, fields=('name', 'start_time', 'duration', 'icon', 'color'))
     
     return JsonResponse({'tasks': tasks_json}, safe=False)
 

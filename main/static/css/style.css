@@ -20,6 +20,7 @@ body {
   overflow-y: auto; 
   display: flex;
   flex-direction: column;
+  min-width: 25ch;
 }
 
 .sidebar-content {
@@ -27,7 +28,6 @@ body {
 }
 
 .main {
-  border-top-left-radius: 40px;
   flex-grow: 1;
   background-color: #fff;
   overflow-y: auto;
@@ -79,8 +79,9 @@ body {
   justify-content: center;
 }
 
-.task {
+.task i{
   margin-top: 50px;
+  color: white;
 }
 
 .quickaddcard .task-name {
@@ -130,7 +131,7 @@ body {
 }
 
 .quickadd-form {
-  display: none; /* Hidden by default */
+  display:none; /* Hidden by default */
   position: fixed; /* Positioned relative to the viewport */
   left: 50%;
   top: 50%;
@@ -140,7 +141,7 @@ body {
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 420px;
-  background: #0C475F;
+  background-color: #06272d;
   color: #fff;
   border-radius: 10px;
   padding: 30px 40px;
@@ -211,10 +212,14 @@ body {
     margin: 5px;
 }
 
+.day :hover {
+    cursor: pointer;
+}
+
 .day-name {
     font-size: 0.75rem; /* Adjust font size as needed */
     color: #fff; /* Adjust color as needed */
-}
+  }
 
 .day-number {
     font-size: 1rem; /* Adjust font size as needed */
@@ -231,8 +236,8 @@ body {
    /* Darker red for the current day */
 }
 
-.day.selected {
-  background-color: #4CAF50; /* Or any color that fits your design */
+.selected {
+  background-color: #13828e !important; /* Or any color that fits your design */
   color: white; /* Adjust text color as needed */
 }
 

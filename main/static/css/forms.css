@@ -23,6 +23,21 @@
     padding: 30px 40px;
 }
 
+.container-fluid {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Or adjust based on your layout needs */
+    overflow: hidden; /* Prevent scrolling on the container itself */
+}
+
+.timeline-container {
+    display: flex;
+    flex-direction: row;
+    overflow-y: auto; /* Only scroll this container */
+    background-color: #14525b;
+    border-top-left-radius: 40px;
+    flex-grow: 1; /* Allow this container to fill remaining space */
+}
 
 .starttime-form {
     width: 420px;

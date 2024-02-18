@@ -30,7 +30,7 @@ body {
 .main {
   flex-grow: 1;
   background-color: #fff;
-  overflow-y: auto;
+  overflow-y: hidden !important;
   padding: 0 !important;
   width: 100% !important;
 }
@@ -52,7 +52,9 @@ body {
   font-size: medium;
   text-align: center;
   max-width: 25ch;
+  margin-top: 25px;
 }
+
 
 .sidebar i {
     font-size: 30px;
@@ -68,6 +70,19 @@ body {
   color: #fff;
   background-color: #009FB750;
   box-shadow: 0px 2px #13828e;
+}
+
+.quickaddcard:hover {
+  box-shadow: 0px 3px #13828e;
+  transition-duration: 200ms;
+  transform: scale(1.05);
+  
+}
+
+
+.logo:hover {
+  transition: transform 2000ms;
+  transform: rotateX(360deg);
 }
 
 .quickaddcard i {
@@ -93,11 +108,30 @@ body {
 
 .plus :hover {
   color: #13828e;
-} 
+}
+
+.edit {
+  color: rgb(190, 65, 84);
+  transition-duration: 300ms;
+  transform: rotateZ(45deg);
+}
+
+.bx-edit-alt {
+  font-size: 20px !important;
+}
+
+.bxs-edit-alt {
+  font-size: 20px !important;
+}
 
 .bxs-plus-circle {
   font-size: 36px !important;
   padding: 0 !important;
+}
+
+.bxs-plus-circle:hover {
+  padding: 0 !important;
+  color:#13828e;
 }
 
 .quickadd h3 {
@@ -117,7 +151,7 @@ body {
   display: flex !important;
   align-items: center !important;
   margin-bottom: 2px !important;
-  margin-left: 15px !important;
+  margin-left: 0px !important;
   text-decoration: none !important;
   
 }
@@ -177,8 +211,36 @@ body {
   /* You might want to set a max-width and ensure it's responsive */
 }
 
+.addtask-form {
+  display: none; /* Hidden by default */
+  position: fixed; /* Positioned relative to the viewport */
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%); /* Center the form */
+  z-index: 10; /* Make sure it's on top of other content */
+  background-color: 0c475f;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 420px;
+  background: #0C475F;
+  color: #fff;
+  border-radius: 10px;
+  padding: 30px 40px;
+  /* You might want to set a max-width and ensure it's responsive */
+}
+
 /* Optional: Full-page backdrop */
 .backdrop2 {
+  position: fixed;
+  top: 0;
+  left: auto;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent backdrop */
+  display: none;
+  z-index: 5; /* Below the modal but above other content */
+}
+
+.backdrop3 {
   position: fixed;
   top: 0;
   left: auto;
@@ -212,9 +274,6 @@ body {
     margin: 5px;
 }
 
-.day :hover {
-    cursor: pointer;
-}
 
 .day-name {
     font-size: 0.75rem; /* Adjust font size as needed */
@@ -230,10 +289,24 @@ body {
   background-color: #174950; /* Light red for past days */
 }
 
+.past:hover {
+  cursor: pointer;
+  background-color: #174950; /* Light blue for future days */
+  transition-duration: 100ms;
+  transform: scale(1.05);
+}
+
 .current {
-  background-color: #0c475f;
- 
+  background-color: #043b5c;
+  transform: scale(1.1);
    /* Darker red for the current day */
+}
+
+.current:hover {
+  cursor: pointer;
+  background-color: #174950; /* Light blue for future days */
+  transition-duration: 100ms;
+  transform: scale(1.05);
 }
 
 .selected {
@@ -241,10 +314,50 @@ body {
   color: white; /* Adjust text color as needed */
 }
 
+.selected:hover {
+  cursor: pointer;
+  background-color: #174950; /* Light blue for future days */
+  transition-duration: 100ms;
+  transform: scale(1.05);
+}
+
 .future {
   background-color: #174950; /* Light blue for future days */
 }
 
+.future:hover {
+  cursor: pointer;
+  background-color: #174950; /* Light blue for future days */
+  transition-duration: 100ms;
+  transform: scale(1.05);
+}
+
+.fab {
+  position: fixed; /* Keep it fixed during scrolling */
+  bottom: 20px;    /* 20px from the bottom */
+  right: 40px;     /* 20px from the right */
+  width: 56px;     /* Fixed width */
+  height: 56px;    /* Fixed height to match width for a circle */
+  line-height: 56px; /* Center the "+" vertically. Adjust as needed. */
+  text-align: center; /* Center the "+" horizontally */
+  border-radius: 50%; /* Circular button */
+  background-color: #06272d; /* Bootstrap primary color, or choose your own */
+  color: white; /* Text color */
+  border: none; /* No border */
+  cursor: pointer; /* Pointer cursor on hover */
+  box-shadow: 0 4px 7px 0 rgba(0,0,0,0.36); /* Shadow for 3D effect */
+  font-size: 24px; /* Plus symbol size */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0; /* Remove padding to prevent stretching */
+}
+
+
+/* Optional: Style for hover effect */
+.fab:hover {
+  box-shadow: 0 5px 8px 0 rgba(0,0,0,0.56);
+}
 
 
 @media (max-width: 1000px) {
@@ -326,7 +439,6 @@ body {
       width: 100% !important;
       margin: 10px 0 !important;
     }
-    
   }
   
   /* Add a toggle button for the sidebar in mobile view */
@@ -349,4 +461,5 @@ body {
       display: block; /* Show toggle button on small screens */
     }
   }
+
 

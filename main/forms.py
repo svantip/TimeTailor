@@ -1,5 +1,6 @@
 # forms.py
 from datetime import time, timedelta
+from datetime import datetime
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -14,6 +15,7 @@ class SignUpForm(UserCreationForm):
         
 
 class QuickAddTask(forms.ModelForm):
+    task_id = forms.IntegerField(widget=forms.HiddenInput(), required=False)
     duration_hours = forms.IntegerField(min_value=0, max_value=24, required=True)
     duration_minutes = forms.IntegerField(min_value=0, max_value=59, required=True)
 
@@ -31,15 +33,56 @@ class QuickAddTask(forms.ModelForm):
         return timedelta(hours=duration_hours, minutes=duration_minutes)
     
     def save(self, commit=True):
-        instance = super(QuickAddTask, self).save(commit=False)
-        instance.duration = self.clean_duration()  # Ensure this is correctly set
+        task_id = self.cleaned_data.get('task_id')
+        if task_id:
+            instance = Task.objects.get(id=task_id)  # Get the existing task instance
+        else:
+            instance = Task()  # Create a new instance if no ID
+
+        # Set instance fields from form fields
+        instance.name = self.cleaned_data.get('name')
+        instance.icon = self.cleaned_data.get('icon')
+        instance.color = self.cleaned_data.get('color')
+        instance.duration = self.clean_duration()
         instance.is_quick_add = True
-        if self.user:
-            instance.user = self.user
-        instance.start_time = None  # Assuming you want to set this to None by default
+        instance.user = self.user if self.user else None
+        instance.start_time = None
         instance.repeat_frequency = None
         instance.is_completed = False
         instance.date = None
+
+        if commit:
+            instance.save()
+        return instance
+    
+    
+    
+class AddTaskForm(forms.ModelForm):
+    duration_hours = forms.IntegerField(min_value=0, max_value=24, required=True)
+    duration_minutes = forms.IntegerField(min_value=0, max_value=59, required=True)
+
+    class Meta:
+        model = Task
+        fields = ['name', 'icon', 'color', 'start_time', 'is_quick_add', 'date']  # 'duration' is handled separately
+    
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super(AddTaskForm, self).__init__(*args, **kwargs)
+
+    def clean_duration(self):
+        duration_hours = self.cleaned_data.get('duration_hours', 0)
+        duration_minutes = self.cleaned_data.get('duration_minutes', 0)
+        return timedelta(hours=duration_hours, minutes=duration_minutes)
+    
+    def save(self, commit=True):
+        instance = super(AddTaskForm, self).save(commit=False)
+        instance.duration = self.clean_duration()  # Ensure this is correctly set
+        instance.is_quick_add = False
+        if self.user:
+            instance.user = self.user
+        instance.repeat_frequency = None
+        instance.is_completed = False
+        instance.date = self.cleaned_data.get('date', datetime.today())
         
         if commit:
             instance.save()
@@ -49,7 +92,7 @@ class QuickAddTask(forms.ModelForm):
 class StartTimeForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields = ['name', 'icon', 'color', 'duration', 'start_time', 'is_quick_add']
+        fields = ['name', 'icon', 'color', 'duration', 'start_time', 'is_quick_add', 'date']
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
@@ -59,9 +102,9 @@ class StartTimeForm(forms.ModelForm):
         instance = super(StartTimeForm, self).save(commit=False)
         if self.user:
             instance.user = self.user
+        instance.date = self.cleaned_data.get('date', datetime.today())  # Default to today if no date is provided
         instance.repeat_frequency = None
         instance.is_completed = False
-        instance.date = None
         
         if commit:
             instance.save()

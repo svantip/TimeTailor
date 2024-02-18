@@ -48,6 +48,14 @@
 }
 
 
+.addtask-form {
+    width: 420px;
+    background: #13828e;
+    color: #fff;
+    border-radius: 40px;
+    padding: 30px 40px;
+}
+
 .quickadd-form h1 {
     margin-top: 20px;
     font-size: 36px;
@@ -55,6 +63,12 @@
 }
 
 .starttime-form h1 {
+    margin-top: 20px;
+    font-size: 36px;
+    text-align: center;
+}
+
+.addtask-form h1 {
     margin-top: 20px;
     font-size: 36px;
     text-align: center;
@@ -90,10 +104,21 @@
     height: 50px;
     margin: 30px 0;
 }
+
+.addtask-form .input-box {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    margin: 30px 0;
+}
+
 .margin-adjust {
     margin-bottom: 0 !important; /* Adjust or remove the bottom margin */
 }
 
+.margin-adjust2 {
+    margin-bottom: 0 !important; /* Adjust or remove the bottom margin */
+}
 
 .icon-grid.show {
     opacity: 1; /* Fully visible */
@@ -118,8 +143,36 @@
     transition: opacity 0.5s ease, visibility 0s linear 0.5s; /* Transition for opacity and delay visibility */
 }
 
+.icon-grid2.show {
+    opacity: 1; /* Fully visible */
+    visibility: visible; /* Make visible */
+    transition: opacity 0.5s ease; /* Apply transition to opacity */
+    display: flex;
+}
+
+.icon-grid2 {
+    justify-content: center;
+    margin-top: 0;
+    width: 100%;
+    height: 80px;
+    flex-wrap: wrap;
+    gap: 10px; /* Adjust based on your design */
+    padding: 10px;
+    border-radius: 25px;
+    background-color: #222; 
+    display: none;
+    opacity: 0; /* Start fully transparent */
+    visibility: hidden; /* Initially not visible */
+    transition: opacity 0.5s ease, visibility 0s linear 0.5s; /* Transition for opacity and delay visibility */
+}
+
 
 .icon-option {
+    cursor: pointer;
+    font-size: 24px; /* Adjust based on your design */
+}
+
+.icon-option2 {
     cursor: pointer;
     font-size: 24px; /* Adjust based on your design */
 }
@@ -174,6 +227,20 @@
     font-weight: 600;
 }
 
+#currentIcon2:hover {
+    cursor: pointer;
+    transition-duration: 200ms;
+    transform: scale(1.1) translateY(-50%);
+    transform-origin: center; 
+}
+
+#currentIcon:hover {
+    cursor: pointer;
+    transition-duration: 200ms;
+    transform: scale(1.1) translateY(-50%);
+    transform-origin: center; 
+}
+
 .starttime-form .btn {
     width: 100%;
     height: 45px;
@@ -186,6 +253,26 @@
     font-size: 16px;
     color: #333;
     font-weight: 600;
+}
+
+.addtask-form .btn {
+    width: 100%;
+    height: 45px;
+    background: #fff;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0,0,0,.1);
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    font-weight: 600;
+    margin-top: 30px;
+}
+
+.btn:hover {
+    transition-duration: 200ms;
+    transform: scale(1.05);
 }
 
 .quickadd-form .register-link {
@@ -219,6 +306,13 @@
     margin-bottom: 30px ;
 }
 
+.duration2 {
+    width: 100%;
+    justify-content: space-between;
+    display: flex ;
+    flex-direction: column ;
+}
+
 .color {
     position: relative;
     width: 50%;
@@ -228,7 +322,19 @@
     margin-bottom: 30px ;
 }
 
+.color2 {
+    position: relative;
+    width: 50%;
+    justify-content: space-between;
+    display: flex ;
+    flex-direction: column ;
+}
+
 .duration, .color {
+    flex: 1;
+}
+
+.duration2, .color2 {
     flex: 1;
 }
 
@@ -245,7 +351,24 @@
     padding: 20px 20px 20px 20px;
 }
 
+.duration2 .dInput{
+    width: 100%;
+    height: 30px;
+    background: transparent;
+    border: none;
+    outline: none;
+    border: 2px solid rgba(255,255,255,.2);
+    border-radius: 20px;
+    font-size: 16px;
+    color: #fff;
+    padding: 20px 20px 20px 20px;
+}
+
 .duration .dInput::placeholder {
+    color: #fff;
+}
+
+.duration2 .dInput::placeholder {
     color: #fff;
 }
 
@@ -253,9 +376,19 @@
     margin-left: 10px;
 }
 
+.duration2 label {
+    margin-left: 10px;
+}
+
+label {
+    margin-left: 10px;
+}
+
 .row {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 0;
+    padding-bottom: 0;
 }
 
 .color-picker {
@@ -276,6 +409,31 @@
 }
 
 .cInput {
+    visibility: hidden;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    z-index: -1; /* Keep it in the document flow but out of sight */
+}
+
+.color-picker2 {
+    width: 100px; /* Adjust based on your needs */
+    height: 100px; /* Adjust based on your needs */
+    border-radius: 20px;
+    position: relative;
+    background-color: #ff0000; /* Initial color; can be dynamically updated */
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.color-picker2 i {
+    color: #fff; /* Adjust icon color as needed */
+    font-size: 50px; /* Adjust based on your needs */
+}
+
+.cInput2 {
     visibility: hidden;
     position: absolute;
     width: 1px;

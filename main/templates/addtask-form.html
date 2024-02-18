@@ -1,0 +1,143 @@
+<html>
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/forms.css' %}" />
+</head>
+<body>
+<div class="backdrop3" id="backdrop3"></div>
+<div class="addtask-form" id="addtask-form-container" style="display: none">
+    <span id="close-modal3" style="cursor: pointer">&times; Close</span>
+    <h1 id="title">Add task</h1>
+    
+    <form method="post" action="{% url 'home' %}">
+        {% csrf_token %}
+        {% if form.errors %}
+            <div class="error-message">
+                <p>Check your task info.</p>
+            </div>
+        {% endif %}
+        <input type="hidden" name="task_id" id="task-id" value="">
+        <div class="row-icon-name">
+            <div class="input-box">
+                <input type="text" name="name" id="namaewa" placeholder="Task name" required />
+                <!-- Hidden input to store selected icon value -->
+                <input type="hidden" name="icon" id="iconInput2" value="bxs-coffee" />
+                <div id="selectedIcon2" class="icon-selector2">
+                    <!-- Default icon -->
+                    <i class="bx bxs-coffee" id="currentIcon2"></i>
+                </div>
+            </div>
+            <div id="iconGrid2" class="icon-grid2 hidden">
+                <!-- Example icons -->
+                <i
+                  class="bx bxs-alarm-snooze icon-option2"
+                  data-icon2="bxs-alarm-snooze"
+                ></i>
+                <i class="bx bxs-shower icon-option2" data-icon2="bxs-shower"></i>
+                <i
+                  class="bx bxs-shopping-bag icon-option2"
+                  data-icon2="bxs-shopping-bag"
+                ></i>
+                <i
+                  class="bx bx-restaurant icon-option2"
+                  data-icon2="bx-restaurant"
+                ></i>
+                <i class="bx bxs-coffee icon-option2" data-icon2="bxs-coffee"></i>
+                <i
+                  class="bx bxs-briefcase icon2-option2"
+                  data-icon2="bxs-briefcase"
+                ></i>
+                <i class="bx bx-dumbbell icon-option2" data-icon2="bx-dumbbell"></i>
+                <i class="bx bxs-book icon-option2" data-icon2="bxs-book"></i>
+                <i class="bx bxs-bed icon-option2" data-icon2="bxs-bed"></i>
+                <i
+                  class="bx bxs-plane-alt icon-option2"
+                  data-icon2="bxs-plane-alt"
+                ></i>
+                <i
+                  class="bx bxs-user-detail icon-option2"
+                  data-icon2="bxs-user-detail"
+                ></i>
+                <i
+                  class="bx bxs-book-bookmark icon-option2"
+                  data-icon2="bxs-book-bookmark"
+                ></i>
+                <i class="bx bxs-tree icon-option2" data-icon2="bxs-tree"></i>
+                <i class="bx bxs-dog icon-option2" data-icon2="bxs-dog"></i>
+              </div>
+        </div>
+        <div class="row">
+            <div class="duration2">
+                <label for="input">Duration: </label>
+                <input class="dInput" type="number" name="duration_hours" min="0" max="24" placeholder="Hours" required />
+                <input class="dInput" type="number" name="duration_minutes" min="0" max="59" placeholder="Minutes" required />
+            </div>
+            <div class="color2">
+                <label for="color2">Color: </label>
+                <div class="color-picker2" id="colorPickerTrigger2">
+                    <i class="bx bxs-coffee" id="colorIcon2"></i>
+                    <!-- placeholder icon -->
+                </div>
+                <input class="cInput2" type="color" id="color2" name="color" value="#222" />
+            </div>
+        </div>
+        <div class="input-box">
+            <label for="input">Time:</label>
+            <input type="time" name="start_time" id="taskadd-id" placeholder="Start time" value="" />
+        </div>
+        <input type="hidden" id="selectedDate2" name="date" value="">
+        <button name="submit_task_add" type="submit" id="submitBtn" class="btn">Add</button>
+    </form>
+</div>
+<script>
+
+    const selectedDate = document.getElementById('selectedDate').value;
+    const sDate = document.getElementById('taskadd-id');
+    sDate.value = selectedDate
+
+    document.getElementById("selectedIcon2").addEventListener("click", function () {
+        const iconGrid = document.getElementById("iconGrid2");
+        const inputBox = document.querySelector(".addtask-form .input-box");
+    
+        if (!iconGrid.classList.contains("show")) {
+            iconGrid.style.display = "flex";
+            setTimeout(() => {
+                iconGrid.classList.add("show");
+                inputBox.classList.add("margin-adjust2");
+            }, 10);
+        } else {
+            iconGrid.classList.remove("show");
+            setTimeout(() => {
+                if (!iconGrid.classList.contains("show")) {
+                    iconGrid.style.display = "none";
+                    inputBox.classList.remove("margin-adjust2");
+                }
+            }, 100);
+        }
+    });
+    
+    const iconOptions2 = document.querySelectorAll(".addtask-form .icon-option2");
+    iconOptions2.forEach(function (icon) {
+        icon.addEventListener("click", function () {
+            const selectedIconClass = icon.getAttribute("data-icon2");
+            document.getElementById("currentIcon2").className = `bx ${selectedIconClass}`;
+            document.getElementById("colorIcon2").className = `bx ${selectedIconClass}`;
+            document.getElementById("iconInput2").value = selectedIconClass;
+            document.getElementById("iconGrid2").classList.remove("show");
+    
+            setTimeout(() => {
+                document.getElementById("iconGrid2").style.display = "none";
+            }, 100);
+        });
+    });
+    
+    document.getElementById("colorPickerTrigger2").addEventListener("click", function () {
+        document.getElementById("color2").click();
+    });
+    
+    document.getElementById("color2").addEventListener("change", function () {
+        document.getElementById("colorPickerTrigger2").style.backgroundColor = this.value;
+    });
+    </script>
+</body>
+</html>

@@ -89,12 +89,9 @@
         <button name="submit_task_add" type="submit" id="submitBtn" class="btn">Add</button>
     </form>
 </div>
-<script>
-
-    const selectedDate = document.getElementById('selectedDate').value;
-    const sDate = document.getElementById('taskadd-id');
-    sDate.value = selectedDate
-
+<script>    
+    selectedDate = document.getElementById('selectedDate').value 
+    document.getElementById('selectedDate2').value = selectedDate
     document.getElementById("selectedIcon2").addEventListener("click", function () {
         const iconGrid = document.getElementById("iconGrid2");
         const inputBox = document.querySelector(".addtask-form .input-box");

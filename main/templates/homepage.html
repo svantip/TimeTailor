@@ -197,7 +197,7 @@
             this.classList.add('selected'); // Highlight the clicked day
             fetchTasksForDay(dateFormatted); 
             document.getElementById('selectedDate').value = dateFormatted;
-            document.getElementById('selectedDate2').value = todayFormatted;
+            document.getElementById('selectedDate2').value = dateFormatted;
         });
     
         return dayElem;
@@ -345,7 +345,7 @@
                 console.log("Task updated successfully");
                 const selectedDate = document.getElementById('selectedDate').value;
                   fetchTasksForDay(selectedDate);
-                
+                  location.reload();
             }
         })
         .catch(error => console.error("Error updating task:", error));

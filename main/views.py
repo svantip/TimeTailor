@@ -67,7 +67,7 @@ class CombinedListView(LoginRequiredMixin, View):
                 messages.error(request, "There was an error with the task form.")      
         
         context = self.get_context_data()
-        context['form'] = form 
+        
         context['form_errors'] = True
         return render(request, 'homepage.html', context)
 

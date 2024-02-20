@@ -392,11 +392,11 @@ label {
 }
 
 .color-picker {
-    width: 100px; /* Adjust based on your needs */
-    height: 100px; /* Adjust based on your needs */
+    width: 100px; 
+    height: 100px; 
     border-radius: 20px;
     position: relative;
-    background-color: #ff0000; /* Initial color; can be dynamically updated */
+    background-color: #ff0000; 
     cursor: pointer;
     display: flex;
     justify-content: center;
@@ -404,8 +404,8 @@ label {
 }
 
 .color-picker i {
-    color: #fff; /* Adjust icon color as needed */
-    font-size: 50px; /* Adjust based on your needs */
+    color: #fff; 
+    font-size: 50px; 
 }
 
 .cInput {
@@ -413,15 +413,15 @@ label {
     position: absolute;
     width: 1px;
     height: 1px;
-    z-index: -1; /* Keep it in the document flow but out of sight */
+    z-index: -1; 
 }
 
 .color-picker2 {
-    width: 100px; /* Adjust based on your needs */
-    height: 100px; /* Adjust based on your needs */
+    width: 100px; 
+    height: 100px; 
     border-radius: 20px;
     position: relative;
-    background-color: #ff0000; /* Initial color; can be dynamically updated */
+    background-color: #ff0000; 
     cursor: pointer;
     display: flex;
     justify-content: center;
@@ -429,8 +429,8 @@ label {
 }
 
 .color-picker2 i {
-    color: #fff; /* Adjust icon color as needed */
-    font-size: 50px; /* Adjust based on your needs */
+    color: #fff; 
+    font-size: 50px; 
 }
 
 .cInput2 {
@@ -438,5 +438,5 @@ label {
     position: absolute;
     width: 1px;
     height: 1px;
-    z-index: -1; /* Keep it in the document flow but out of sight */
+    z-index: -1; 
 }

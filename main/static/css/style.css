@@ -112,7 +112,7 @@ body {
 
 .edit {
   color: rgb(190, 65, 84);
-  transition-duration: 300ms;
+  transition: 0.3s ease;
   transform: rotateZ(45deg);
 }
 
@@ -127,6 +127,7 @@ body {
 .bxs-plus-circle {
   font-size: 36px !important;
   padding: 0 !important;
+  transition: 0.3s ease;
 }
 
 .bxs-plus-circle:hover {
@@ -165,12 +166,12 @@ body {
 }
 
 .quickadd-form {
-  display:none; /* Hidden by default */
-  position: fixed; /* Positioned relative to the viewport */
+  display:none; 
+  position: fixed;
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%); /* Center the form */
-  z-index: 10; /* Make sure it's on top of other content */
+  transform: translate(-50%, -50%); 
+  z-index: 10; 
   background-color: 0c475f;
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -179,27 +180,25 @@ body {
   color: #fff;
   border-radius: 10px;
   padding: 30px 40px;
-  /* You might want to set a max-width and ensure it's responsive */
 }
 
-/* Optional: Full-page backdrop */
 .backdrop {
   position: fixed;
   top: 0;
   left: auto;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent backdrop */
+  background-color: rgba(0, 0, 0, 0.5); 
   display: none;
-  z-index: 5; /* Below the modal but above other content */
+  z-index: 5; 
 }
 
 .starttime-form {
-  display: none; /* Hidden by default */
-  position: fixed; /* Positioned relative to the viewport */
+  display: none; 
+  position: fixed; 
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%); /* Center the form */
-  z-index: 10; /* Make sure it's on top of other content */
+  transform: translate(-50%, -50%); 
+  z-index: 10; 
   background-color: 0c475f;
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -208,16 +207,15 @@ body {
   color: #fff;
   border-radius: 10px;
   padding: 30px 40px;
-  /* You might want to set a max-width and ensure it's responsive */
 }
 
 .addtask-form {
-  display: none; /* Hidden by default */
-  position: fixed; /* Positioned relative to the viewport */
+  display: none;
+  position: fixed; 
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%); /* Center the form */
-  z-index: 10; /* Make sure it's on top of other content */
+  transform: translate(-50%, -50%);
+  z-index: 10; 
   background-color: 0c475f;
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -226,18 +224,16 @@ body {
   color: #fff;
   border-radius: 10px;
   padding: 30px 40px;
-  /* You might want to set a max-width and ensure it's responsive */
 }
 
-/* Optional: Full-page backdrop */
 .backdrop2 {
   position: fixed;
   top: 0;
   left: auto;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent backdrop */
+  background-color: rgba(0, 0, 0, 0.5);
   display: none;
-  z-index: 5; /* Below the modal but above other content */
+  z-index: 5; 
 }
 
 .backdrop3 {
@@ -245,9 +241,9 @@ body {
   top: 0;
   left: auto;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent backdrop */
+  background-color: rgba(0, 0, 0, 0.5); 
   display: none;
-  z-index: 5; /* Below the modal but above other content */
+  z-index: 5;
 }
 
 #calendar {
@@ -265,10 +261,10 @@ body {
     flex-direction: column;
     align-items:center;
     justify-content:flex-start;
-    gap: 25px; /* Adjust the space between day name and number */
-    width: 50px; /* Adjust width as needed */
-    height: 50px; /* Adjust height as needed */
-    line-height: 1%; /* Adjust line height as needed */
+    gap: 25px; 
+    width: 50px; 
+    height: 50px; 
+    line-height: 1%; 
     text-align: center;
     border-radius: 50%;
     margin: 5px;
@@ -276,22 +272,22 @@ body {
 
 
 .day-name {
-    font-size: 0.75rem; /* Adjust font size as needed */
-    color: #fff; /* Adjust color as needed */
+    font-size: 0.75rem; 
+    color: #fff; 
   }
 
 .day-number {
-    font-size: 1rem; /* Adjust font size as needed */
-    color: #fff; /* Adjust color as needed */
+    font-size: 1rem; 
+    color: #fff; 
 }
 
 .past {
-  background-color: #174950; /* Light red for past days */
+  background-color: #174950; 
 }
 
 .past:hover {
   cursor: pointer;
-  background-color: #174950; /* Light blue for future days */
+  background-color: #174950; 
   transition-duration: 100ms;
   transform: scale(1.05);
 }
@@ -299,62 +295,59 @@ body {
 .current {
   background-color: #043b5c;
   transform: scale(1.1);
-   /* Darker red for the current day */
 }
 
 .current:hover {
   cursor: pointer;
-  background-color: #174950; /* Light blue for future days */
+  background-color: #174950; 
   transition-duration: 100ms;
   transform: scale(1.05);
 }
 
 .selected {
-  background-color: #13828e !important; /* Or any color that fits your design */
-  color: white; /* Adjust text color as needed */
+  background-color: #13828e !important; 
+  color: white;
 }
 
 .selected:hover {
   cursor: pointer;
-  background-color: #174950; /* Light blue for future days */
+  background-color: #174950; 
   transition-duration: 100ms;
   transform: scale(1.05);
 }
 
 .future {
-  background-color: #174950; /* Light blue for future days */
+  background-color: #174950; 
 }
 
 .future:hover {
   cursor: pointer;
-  background-color: #174950; /* Light blue for future days */
+  background-color: #174950; 
   transition-duration: 100ms;
   transform: scale(1.05);
 }
 
 .fab {
-  position: fixed; /* Keep it fixed during scrolling */
-  bottom: 20px;    /* 20px from the bottom */
-  right: 40px;     /* 20px from the right */
-  width: 56px;     /* Fixed width */
-  height: 56px;    /* Fixed height to match width for a circle */
-  line-height: 56px; /* Center the "+" vertically. Adjust as needed. */
-  text-align: center; /* Center the "+" horizontally */
-  border-radius: 50%; /* Circular button */
-  background-color: #06272d; /* Bootstrap primary color, or choose your own */
-  color: white; /* Text color */
-  border: none; /* No border */
-  cursor: pointer; /* Pointer cursor on hover */
-  box-shadow: 0 4px 7px 0 rgba(0,0,0,0.36); /* Shadow for 3D effect */
-  font-size: 24px; /* Plus symbol size */
+  position: fixed; 
+  bottom: 20px;   
+  right: 40px;     
+  width: 56px;    
+  height: 56px;    
+  line-height: 56px; 
+  text-align: center; 
+  border-radius: 50%; 
+  background-color: #06272d; 
+  color: white; 
+  border: none; 
+  cursor: pointer; 
+  box-shadow: 0 4px 7px 0 rgba(0,0,0,0.36); 
+  font-size: 24px; 
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0; /* Remove padding to prevent stretching */
+  padding: 0; 
 }
 
-
-/* Optional: Style for hover effect */
 .fab:hover {
   box-shadow: 0 5px 8px 0 rgba(0,0,0,0.56);
 }
@@ -362,14 +355,14 @@ body {
 
 @media (max-width: 1000px) {
     .sidebar {
-      width: fit-content;  /* Adjust width for smaller screens */
-      padding: 10px; /* Reduce padding */
+      width: fit-content;
+      padding: 10px;
       width: fit-content; 
     }
   
     .sidebar h3, .welcome-msg {
-      margin-top: 20px; /* Reduce margin-top */
-      font-size: medium; /* Adjust font size if necessary */
+      margin-top: 20px; 
+      font-size: medium; 
     }
 
     .quickaddcard i {
@@ -381,11 +374,11 @@ body {
     }
   
     .main {
-      padding: 10px; /* Reduce padding */
+      padding: 10px; 
     }
   
     .sidebar .logo {
-      height: 80px; /* Adjust logo size */
+      height: 80px;
     }
 
     .welcome-msg {
@@ -396,15 +389,15 @@ body {
   
   @media (max-width: 800px) {
     .sidebar {
-      width: fit-content; /* Full width for very small screens */
+      width: fit-content; 
       position: fixed;
       z-index: 1;
       left: 0;
       top:10px;
       bottom: 50px;
       height: 100%;
-      transform: translateX(-100%); /* Hide sidebar off-screen */
-      transition: transform 0.5s ease; /* Smooth transition for toggling */
+      transform: translateX(-100%); 
+      transition: transform 0.5s ease; 
     }
 
     .quickaddcard i {
@@ -418,11 +411,11 @@ body {
     }
   
     .sidebar.active {
-      transform: translateX(0); /* Show sidebar */
+      transform: translateX(0); 
     }
   
     .sidebar-content, .welcome-msg {
-      margin-top: 40px; /* Adjust spacing */
+      margin-top: 40px; 
       width: fit-content; 
     }
     
@@ -432,7 +425,7 @@ body {
     }
 
     .main {
-      margin-top: 60px; /* Provide space for the top part of the sidebar */
+      margin-top: 60px; 
       border-radius: 0;
     }
     .quickaddcard {
@@ -441,24 +434,19 @@ body {
     }
   }
   
-  /* Add a toggle button for the sidebar in mobile view */
-  /* Place this HTML somewhere in your layout, ideally in the navbar or header */
-  /* <button class="sidebar-toggle">Menu</button> */
-  
-  /* Style for the toggle button */
   .sidebar-toggle {
-    display: none; /* Hidden by default */
+    display: none;
     position: fixed;
-    z-index: 2; /* Above the sidebar */
-    top: 10px; /* Adjust as needed */
-    left: 20px; /* Adjust as needed */
+    z-index: 2; 
+    top: 10px; 
+    left: 20px; 
     font-size: 30px;
     color: #0c475f;
   }
   
   @media (max-width: 800px) {
     .sidebar-toggle {
-      display: block; /* Show toggle button on small screens */
+      display: block; 
     }
   }
 

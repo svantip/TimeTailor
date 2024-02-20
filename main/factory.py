@@ -31,7 +31,6 @@ class TaskFactory(DjangoModelFactory):
     icon = factory.Iterator(['bxs-coffee', 'bxs-book', 'bxs-briefcase'])
     color = factory.Faker('hex_color')
     start_time = factory.Faker('time_object')
-    # Use a lambda to generate a timedelta object with a random number of minutes
     duration = factory.LazyFunction(lambda: datetime.timedelta(minutes=random.randint(15, 120)))
     repeat_frequency = fuzzy.FuzzyChoice(choices=[None, 'daily', 'weekly'])
     is_quick_add = factory.Faker('boolean')
@@ -49,10 +48,8 @@ class CategoryFactory(DjangoModelFactory):
     @post_generation
     def tasks(self, create, extracted, **kwargs):
         if not create:
-            # Simple build, do nothing.
             return
 
         if extracted:
-            # A list of tasks were passed in, use them
             for task in extracted:
                 self.task.add(task)

@@ -13,21 +13,27 @@ from main.factory import (
 
 NUM_INSTANCES = 3
 
+
 class Command(BaseCommand):
-    help = 'Populate the database with sample data for UserProfile, Task, and Category models.'
+    help = 'Generate test data for UserProfile, Task, and Category models.'
 
     @transaction.atomic
     def handle(self, *args, **options):
-        # Clear existing data
-        print('Deleting old data...')
-        Category.objects.all().delete()
-        Task.objects.all().delete()
+        self.stdout.write(self.style.SUCCESS('Deleting old data...'))
         UserProfile.objects.all().delete()
+        Task.objects.all().delete()
+        Category.objects.all().delete()
 
-        # Create new data
-        print('Creating new data...')
-        user_profiles = UserProfileFactory.create_batch(NUM_INSTANCES)
-        tasks = TaskFactory.create_batch(NUM_INSTANCES)
-        categories = CategoryFactory.create_batch(NUM_INSTANCES, tasks=random.sample(tasks, k=2))  # Assign some tasks to each category
+        self.stdout.write(self.style.SUCCESS('Creating new data...'))
 
-        print(f'Created {len(user_profiles)} user profiles, {len(tasks)} tasks, and {len(categories)} categories.')
+        for _ in range(NUM_INSTANCES):
+            UserProfileFactory()
+
+        tasks = []
+        for _ in range(NUM_INSTANCES):
+            tasks.append(TaskFactory())
+
+        for _ in range(NUM_INSTANCES):
+            CategoryFactory()
+
+        self.stdout.write(self.style.SUCCESS(f'Created {NUM_INSTANCES} instances for each model.'))

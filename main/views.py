@@ -29,7 +29,6 @@ class CombinedListView(LoginRequiredMixin, View):
         return render(request, 'homepage.html', context)
 
     def post(self, request, *args, **kwargs):
-        # Check which form was submitted
         if 'submit_quick_add' in request.POST:
             task_id = request.POST.get('task_id')
             if task_id:
@@ -46,7 +45,7 @@ class CombinedListView(LoginRequiredMixin, View):
             else:
                 messages.error(request, "There was an error with your submission.")
         elif 'submit_start_time' in request.POST:
-            form = StartTimeForm(request.POST, user=request.user)  # Assuming StartTimeForm is correctly defined
+            form = StartTimeForm(request.POST, user=request.user)
             if form.is_valid():
                 form.save()
                 messages.success(request, "Start time set successfully.")
@@ -54,10 +53,10 @@ class CombinedListView(LoginRequiredMixin, View):
             else:
                 messages.error(request, "There was an error with setting the start time.")
         elif 'submit_task_add' in request.POST:
-            task_id = request.POST.get('task_id', None)  # Get the task ID from the form, if it exists
-            task_instance = Task.objects.filter(id=task_id).first() if task_id else None  # Fetch the task if ID exists
+            task_id = request.POST.get('task_id', None)
+            task_instance = Task.objects.filter(id=task_id).first() if task_id else None
             
-            form = AddTaskForm(request.POST, instance=task_instance, user=request.user)  # Initialize form with instance if updating
+            form = AddTaskForm(request.POST, instance=task_instance, user=request.user)
             
             if form.is_valid():
                 form.save()
@@ -67,10 +66,8 @@ class CombinedListView(LoginRequiredMixin, View):
             else:
                 messages.error(request, "There was an error with the task form.")      
         
-        
-        # If neither form is valid, or if another POST request without form submission
         context = self.get_context_data()
-        context['form'] = form  # You may need to handle this more gracefully for multiple forms
+        context['form'] = form 
         context['form_errors'] = True
         return render(request, 'homepage.html', context)
 
@@ -79,7 +76,7 @@ class CombinedListView(LoginRequiredMixin, View):
         quick_add_tasks = Task.objects.filter(user=current_user, is_quick_add=True)
         completed_tasks = Task.objects.filter(user=current_user, is_completed=True, date=datetime.today())
         all_tasks = Task.objects.filter(user=current_user, is_completed=False)
-        form_quick_add = QuickAddTask(user=current_user)  # Initialize form with user for GET requests
+        form_quick_add = QuickAddTask(user=current_user) 
         form_start_time = StartTimeForm() 
         form_add_task = AddTaskForm(user=current_user)
         return {
@@ -139,29 +136,23 @@ def login_view(request):
 
 @login_required
 def get_tasks_for_date(request, date_str):
-    # Convert the date_str to a date object
     selected_date = datetime.strptime(date_str, "%Y-%m-%d").date()
     tasks = Task.objects.filter(user=request.user, date=selected_date, is_quick_add=False, is_completed = False)
     
-    # Serialize tasks to JSON
     tasks_json = serialize('json', tasks, fields=('name', 'start_time', 'duration', 'icon', 'color'))
     
     return JsonResponse({'tasks': tasks_json}, safe=False)
 
 def update_task_completion(request, task_id):
     try:
-        # Parse the JSON body
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
         completed = body.get('completed', False)
 
-        # Retrieve and update the task
         task = Task.objects.get(pk=task_id)
         task.is_completed = True
         task.save()
        
-
-        # Return a success response
         return JsonResponse({"message": "Task updated successfully."})
 
     except Task.DoesNotExist:
@@ -171,7 +162,7 @@ def update_task_completion(request, task_id):
     
 @login_required
 def delete_task(request, task_id):
-    task = get_object_or_404(Task, id=task_id, user=request.user)  # Ensure the task belongs to the user
+    task = get_object_or_404(Task, id=task_id, user=request.user) 
     task.delete()
     return JsonResponse({'status': 'success'}, status=200)
 

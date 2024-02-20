@@ -80,19 +80,12 @@
           </div>
           <div id="calendar">
             <div class="day past">13</div>
-            <!-- Past days -->
-            <div class="day past">14</div>
-            <!-- Past days -->
+            <div class="day past">14</div>    
             <div class="day current">15</div>
-            <!-- Current day -->
             <div class="day future">16</div>
-            <!-- Future days -->
             <div class="day future">17</div>
-            <!-- Future days -->
             <div class="day future">18</div>
-            <!-- Future days -->
             <div class="day future">19</div>
-            <!-- Future days -->
           </div>
         </div>
 
@@ -103,7 +96,6 @@
         background-color: #14525b;
         border-top-left-radius: 20px;
         "> 
-          <!-- Hours Column -->
           <div id="hours-column" style="flex: 0 0 100px; /* Fixed width */
           background-color: #0d737d;
           padding: 10px;height:1440px;">
@@ -111,12 +103,10 @@
               <div class="hour" style="color:#9df2f1;text-align: center; line-height: 60px;">{{ hour }}:00</div>
               {% endfor %}
           </div>
-          <!-- Tasks Container -->
           <div id="tasks-container" style="flex-grow: 1;
           position: relative;height: fit-content;
           box-shadow: inset 10px 10px 10px rgba(0, 0, 0, 0.5);
           ">
-              <!-- Dynamic tasks will be inserted here -->
           </div>
       </div>
       <button id="fab" class="fab"><i class='bx bx-plus'></i></button>
@@ -137,32 +127,28 @@
       function generateCalendar() {
         const today = new Date();
         const calendar = document.getElementById("calendar");
-        const todayFormatted = today.toISOString().slice(0, 10); // Format today's date as YYYY-MM-DD
+        const todayFormatted = today.toISOString().slice(0, 10); //  date as YYYY-MM-DD
         document.getElementById('selectedDate').value = todayFormatted;
         document.getElementById('selectedDate2').value = todayFormatted;
-        // Clear existing calendar days
+        
         calendar.innerHTML = "";
     
-        // Add past days
         for (let i = 2; i > 0; i--) {
             const pastDay = new Date(today);
             pastDay.setDate(today.getDate() - i);
             calendar.appendChild(createDayElement(pastDay, "past", todayFormatted));
         }
     
-        // Add current day and highlight it
         const currentDayElement = createDayElement(today, "current", todayFormatted);
-        currentDayElement.classList.add('selected'); // Highlight today
+        currentDayElement.classList.add('selected'); 
         calendar.appendChild(currentDayElement);
     
-        // Add future days
         for (let i = 1; i <= 4; i++) {
             const futureDay = new Date(today);
             futureDay.setDate(today.getDate() + i);
             calendar.appendChild(createDayElement(futureDay, "future", todayFormatted));
         }
     
-        // Fetch tasks for today
         fetchTasksForDay(todayFormatted);
     }
     
@@ -170,16 +156,16 @@
         const dayElem = document.createElement("div");
         dayElem.className = `day ${className}`;
         const dateFormatted = date.toISOString().slice(0, 10);
-        dayElem.setAttribute("data-date", dateFormatted); // Set ISO string as data attribute
+        dayElem.setAttribute("data-date", dateFormatted); 
     
-        // Create day name element
+        
         const dayNameElem = document.createElement("div");
         dayNameElem.className = "day-name";
         const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
         const dayName = dayNames[date.getDay()];
         dayNameElem.textContent = dayName;
     
-        // Create day number element
+        
         const dayNumberElem = document.createElement("div");
         dayNumberElem.className = "day-number";
         dayNumberElem.textContent = date.getDate();
@@ -187,14 +173,14 @@
         dayElem.appendChild(dayNameElem);
         dayElem.appendChild(dayNumberElem);
     
-        // Highlight today's date
+       
         if (dateFormatted === todayFormatted) {
-            dayElem.classList.add('selected'); // This ensures today is highlighted
+            dayElem.classList.add('selected'); 
         }
     
         dayElem.addEventListener("click", function () {
-            document.querySelectorAll('.day').forEach(day => day.classList.remove('selected')); // Remove 'selected' class from all days
-            this.classList.add('selected'); // Highlight the clicked day
+            document.querySelectorAll('.day').forEach(day => day.classList.remove('selected')); 
+            this.classList.add('selected'); 
             fetchTasksForDay(dateFormatted); 
             document.getElementById('selectedDate').value = dateFormatted;
             document.getElementById('selectedDate2').value = dateFormatted;
@@ -206,7 +192,7 @@
       fetch(`/get-tasks-for-date/${selectedDate}`)
       .then(response => response.json())
       .then(data => {
-          const tasks = JSON.parse(data.tasks).filter(task => !task.is_completed); // Assuming data.tasks is the serialized tasks JSON
+          const tasks = JSON.parse(data.tasks).filter(task => !task.is_completed); 
           updateTasksSection(tasks);
       })
       .catch(error => console.error("Error fetching tasks:", error));
@@ -214,13 +200,13 @@
   
   function updateTasksSection(tasks) {
     const tasksContainer = document.getElementById("tasks-container");
-    tasksContainer.innerHTML = ""; // Clear current tasks
-    tasksContainer.style.position = 'relative'; // Ensure the container has a relative position
+    tasksContainer.innerHTML = ""; 
+    tasksContainer.style.position = 'relative'; 
 
   
 
     tasks.forEach(task => {
-        // Calculate top position and height
+        
         const startTimeParts = task.fields.start_time.split(":");
         const durationParts = task.fields.duration.split(":");
         const startHour = parseInt(startTimeParts[0], 10);
@@ -229,25 +215,23 @@
         const durationMinutes = parseInt(durationParts[1], 10);
 
         const topPosition = (startHour * 60) + startMinute + 40; // 1 hour = 60px
-        const taskHeight = (durationHours * 60) + durationMinutes; // 1 hour = 60px
+        const taskHeight = (durationHours * 60) + durationMinutes; 
 
-        // Create and style task element
         const taskElem = document.createElement("div");
 
         taskElem.style = 'justify-content:space-between; align-items:center;'
         taskElem.style.display ="flex"
-        taskElem.style.position = "absolute"; // Use absolute positioning within the relative container
+        taskElem.style.position = "absolute";
         taskElem.style.top = `${topPosition}px`;
         taskElem.style.left = "0";
-        taskElem.style.width = "calc(100% - 20px)"; // Adjust width if needed, accounting for padding
+        taskElem.style.width = "calc(100% - 20px)"; 
         taskElem.style.height = `${taskHeight}px`;
         taskElem.style.backgroundColor = task.fields.color;
         taskElem.style.color = "white";
         taskElem.style.padding = "10px";
         taskElem.style.borderRadius = "5px";
-        taskElem.style.marginLeft = "10px"; // Add if you want some spacing from the left
+        taskElem.style.marginLeft = "10px";
 
-        // Append icon, name, and time
         const taskIcon = document.createElement("i");
         taskIcon.className = `bx ${task.fields.icon}`;
         taskIcon.style = 'font-size:25px'
@@ -258,7 +242,7 @@
         taskName.textContent = `${task.fields.name}`;
         taskElem.appendChild(taskName);
 
-        // Correctly calculate and display the end time
+        
         const endTime = new Date(0, 0, 0, startHour, startMinute);
         endTime.setMinutes(endTime.getMinutes() + durationHours * 60 + durationMinutes);
         const endTimeString = endTime.toTimeString().split(":")[0] + ":" + endTime.toTimeString().split(":")[1];
@@ -274,7 +258,7 @@
 
         edit.className = "bx bx-edit-alt";
         edit.style = 'font-size:25px'
-        edit.style.color = "white"; // Or any color that fits your design
+        edit.style.color = "white"; 
         edit.style.cursor = "pointer";
         
         edit.onclick = function() { openEditForm(task.pk, task.fields.name, task.fields.icon, task.fields.color, durationHours, durationMinutes, task.fields.start_time); };
@@ -282,7 +266,7 @@
         const checkMark = document.createElement("i");
         checkMark.className = "bx bx-check-circle";
         checkMark.style = 'font-size:25px'
-        checkMark.style.color = "white"; // Or any color that fits your design
+        checkMark.style.color = "white"; 
         checkMark.style.cursor = "pointer";
         checkMark.onclick = function() { updateTaskCompletion(task.pk); };
         
@@ -290,9 +274,9 @@
         ex.style = 'font-size:25px;align-items:center;padding-top:3px;'
         ex.addEventListener('click', function() {
           if (confirm('Are you sure you want to delete this task?')) {
-              const taskId = task.pk; // Make sure you have access to the task's ID here
-              const url = `/delete-task/${taskId}/`; // URL to your delete view
-              const csrftoken = document.querySelector('[name=csrf-token]').content; // CSRF token
+              const taskId = task.pk; 
+              const url = `/delete-task/${taskId}/`; 
+              const csrftoken = document.querySelector('[name=csrf-token]').content; 
       
               fetch(url, {
                   method: 'POST',
@@ -306,7 +290,6 @@
                       let selectedDate = document.getElementById('selectedDate').value;
                       console.log("Task deleted successfully");
                       fetchTasksForDay(selectedDate);
-                      // Optionally, remove the task element from the DOM or refresh the page
                   } else {
                       alert("There was an error deleting the task.");
                   }
@@ -358,7 +341,7 @@
         document.getElementById('backdrop3').style.display = 'block';
         console.log(document.querySelector('[name="name"]'));
         console.log(document.querySelector('[name="start_time"]'));
-        // Fill the form fields with task details 
+        
         document.getElementById('task-id').value = taskId;
         document.getElementById('iconInput2').className = taskIcon;
         document.getElementById('currentIcon2').className = `bx ${taskIcon}`;
@@ -374,18 +357,18 @@
       }
 
 
-      // Run generateCalendar on script load and every midnight
+      
       generateCalendar();
       setInterval(() => {
         const now = new Date();
         if (now.getHours() === 0 && now.getMinutes() === 0) {
           generateCalendar();
         }
-      }, 60000); // Check every minute
+      }, 60000);
 
       const fab = document.getElementById('fab');
 
-      // Function to handle mouse movement over the button
+      
       document.addEventListener('mousemove', function(event) {
         const fab = document.getElementById('fab');
         const fabRect = fab.getBoundingClientRect();
@@ -397,16 +380,16 @@
         const distanceY = event.clientY - fabCenterY;
         const distance = Math.sqrt(distanceX ** 2 + distanceY ** 2);
       
-        // Determine the scale and rotation based on the distance
-        const maxDistance = 200; // Max distance for effect to apply
+        
+        const maxDistance = 200; 
         let intensity = Math.min(distance / maxDistance, 1);
       
-        // Scale effect (make it "breathe")
-        const minScale = 0.95; // Minimum scale
-        const maxScale = 1.35; // Maximum scale
+        
+        const minScale = 0.95; 
+        const maxScale = 1.35; 
         const scale = minScale + (maxScale - minScale) * (1 - intensity) 
       
-        // Apply the transformations
+        
         fab.style.transform = `scale(${scale}) `;
     });
     </script>
@@ -420,7 +403,6 @@
         document.getElementById("currentMonthYear").textContent = currentMonthYear;
       }
 
-      // Call the function to update the content
       updateMonthYear();
     </script>
 

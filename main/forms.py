@@ -11,7 +11,7 @@ class SignUpForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'password1', 'password2', )
+        fields = ('username', 'email', 'password', 'password2', )
         
 
 class QuickAddTask(forms.ModelForm):
@@ -21,7 +21,7 @@ class QuickAddTask(forms.ModelForm):
 
     class Meta:
         model = Task
-        fields = ['name', 'icon', 'color']  # 'duration' is handled separately
+        fields = ['name', 'icon', 'color']  
     
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
@@ -35,11 +35,10 @@ class QuickAddTask(forms.ModelForm):
     def save(self, commit=True):
         task_id = self.cleaned_data.get('task_id')
         if task_id:
-            instance = Task.objects.get(id=task_id)  # Get the existing task instance
+            instance = Task.objects.get(id=task_id) 
         else:
-            instance = Task()  # Create a new instance if no ID
+            instance = Task() 
 
-        # Set instance fields from form fields
         instance.name = self.cleaned_data.get('name')
         instance.icon = self.cleaned_data.get('icon')
         instance.color = self.cleaned_data.get('color')
@@ -63,7 +62,7 @@ class AddTaskForm(forms.ModelForm):
 
     class Meta:
         model = Task
-        fields = ['name', 'icon', 'color', 'start_time', 'is_quick_add', 'date']  # 'duration' is handled separately
+        fields = ['name', 'icon', 'color', 'start_time', 'is_quick_add', 'date']
     
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
@@ -76,7 +75,7 @@ class AddTaskForm(forms.ModelForm):
     
     def save(self, commit=True):
         instance = super(AddTaskForm, self).save(commit=False)
-        instance.duration = self.clean_duration()  # Ensure this is correctly set
+        instance.duration = self.clean_duration()  
         instance.is_quick_add = False
         if self.user:
             instance.user = self.user
@@ -102,7 +101,7 @@ class StartTimeForm(forms.ModelForm):
         instance = super(StartTimeForm, self).save(commit=False)
         if self.user:
             instance.user = self.user
-        instance.date = self.cleaned_data.get('date', datetime.today())  # Default to today if no date is provided
+        instance.date = self.cleaned_data.get('date', datetime.today()) 
         instance.repeat_frequency = None
         instance.is_completed = False
         

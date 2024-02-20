@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var backdrop2 = document.getElementById("backdrop2");
   var closeModal2 = document.getElementById("close-modal2");
 
-  let isEditMode = false; // Flag to track the edit mode state
+  let isEditMode = false;
 
   const quickAddEditToggle = document.getElementById("quickaddedit-toggle");
   const quickAddEditIcon = document.getElementById("quickaddediticon");
@@ -25,8 +25,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (quickAddEditToggle && quickAddEditIcon) {
     quickAddEditToggle.addEventListener("click", function (event) {
-      event.preventDefault(); // Prevents the default action
-      isEditMode = !isEditMode; // Toggle the edit mode state
+      event.preventDefault(); 
+      isEditMode = !isEditMode; 
 
       const plusIcons = document.querySelectorAll(".bxs-plus-circle");
       plusIcons.forEach(function (icon) {
@@ -36,8 +36,6 @@ document.addEventListener("DOMContentLoaded", function () {
           icon.classList.remove("edit");
         }
       });
-
-      // Correctly toggling icon classes
       if (isEditMode) {
         quickAddEditIcon.classList.remove("bx-edit-alt");
         quickAddEditIcon.classList.add("bxs-edit-alt");
@@ -45,7 +43,6 @@ document.addEventListener("DOMContentLoaded", function () {
         quickAddEditIcon.classList.add("bx-edit-alt");
         quickAddEditIcon.classList.remove("bxs-edit-alt");
       }
-      // Reassign event listeners based on mode
       assignEventListenersToStarttimeToggles();
     });
   } else {
@@ -56,11 +53,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const starttimeToggles = document.querySelectorAll(".starttime-toggle");
     starttimeToggles.forEach(function (starttimeToggle) {
       
-      // Remove any existing event listener to prevent duplicates
       starttimeToggle.removeEventListener("click", handleStarttimeToggleClick);
       starttimeToggle.removeEventListener("click", handleStarttimeToggleDelete);
 
-      // Add the appropriate event listener based on isEditMode
       if (isEditMode) {
         starttimeToggle.addEventListener("click", handleStarttimeToggleDelete);
       } else {
@@ -72,7 +67,6 @@ document.addEventListener("DOMContentLoaded", function () {
   function handleStarttimeToggleClick(event) {
     event.preventDefault();
     console.log('handleStarttimeToggleClick is assigned')
-    // This variable should be declared here if it's not globally available
     const starttimeFormContainer = document.getElementById("starttime-form-container");
     const backdrop = document.getElementById("backdrop");
 
@@ -94,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function () {
     event.preventDefault();
     console.log('handleStarttimeToggleDelete is assigned')
     const taskId = this.closest('.quickaddcard').getAttribute('data-task-id');
-    console.log('Attempting to delete task with ID:', taskId); // Debug line
+    console.log('Attempting to delete task with ID:', taskId); 
     if (!taskId) {
       alert("Task ID is missing.");
       return;
@@ -123,15 +117,15 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   quickAddEditToggle.addEventListener("click", function (event) {
-    event.preventDefault(); // Prevents the default action
-    // Toggle the edit mode state
-    assignEventListenersToStarttimeToggles(); // Update event listeners based on the new mode
+    event.preventDefault();
+  
+    assignEventListenersToStarttimeToggles();
   });
 
   quickAddToggle.addEventListener("click", function (event) {
-    event.preventDefault(); // Prevent the default action
+    event.preventDefault(); 
     quickAddFormContainer.style.display = "block";
-    backdrop.style.display = "block"; // Show the backdrop
+    backdrop.style.display = "block";
   });
   fab.addEventListener("click", function (event) {
     document.getElementById("iconInput2").className = null;
@@ -146,49 +140,25 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("submitBtn").innerText = "Add Task";
     document.getElementById("title").innerText = "Add Task";
 
-    event.preventDefault(); // Prevent the default anchor behavior
+    event.preventDefault(); 
     taskAddForm.style.display = "block";
-    backdrop3.style.display = "block"; // Show backdrop when form is displayed
+    backdrop3.style.display = "block"; 
   });
-
-  // Optional: Close the modal when the backdrop is clicked
-  if (backdrop) {
-    backdrop.addEventListener("click", function () {
-      quickAddFormContainer.style.display = "none";
-      backdrop.style.display = "none"; // Hide backdrop
-    });
-  }
-
-  // Optional: Close the modal when the close button is clicked
+  
   if (closeModal) {
     closeModal.addEventListener("click", function () {
       quickAddFormContainer.style.display = "none";
       backdrop.style.display = "none";
     });
   }
-  if (backdrop2) {
-    backdrop2.addEventListener("click", function () {
-      starttimeFormContainer.style.display = "none";
-      backdrop2.style.display = "none"; // Hide backdrop
-    });
-  }
-
-  // Optional: Close the modal when the close button is clicked
+ 
   if (closeModal2) {
     closeModal2.addEventListener("click", function () {
       starttimeFormContainer.style.display = "none";
       backdrop2.style.display = "none";
     });
   }
-
-  if (backdrop3) {
-    backdrop3.addEventListener("click", function () {
-      taskAddForm.style.display = "none";
-      backdrop3.style.display = "none"; // Hide backdrop
-    });
-  }
-
-  // Optional: Close the modal when the close button is clicked
+  
   if (closeModal3) {
     closeModal3.addEventListener("click", function () {
       taskAddForm.style.display = "none";
